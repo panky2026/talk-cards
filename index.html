@@ -84,7 +84,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-size: 0.85rem;
         }
 
@@ -99,17 +99,27 @@
             transition: all 0.2s;
         }
 
-        .order-toggle {
+        /* 隨機模式下拉選單風格 */
+        .random-select-wrap {
             display: flex;
             align-items: center;
             gap: 6px;
             background: var(--card-back-bg);
             border: 1px solid var(--border-color);
-            padding: 6px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
-            cursor: pointer;
             font-size: 0.8rem;
             color: var(--text-color);
+        }
+
+        .random-select {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 0.8rem;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
         }
 
         .categories {
@@ -338,7 +348,14 @@
 
     <div class="top-bar">
         <button class="icon-btn" onclick="openRules()">📖 儀式與規則</button>
-        <button class="order-toggle" id="orderBtn" onclick="toggleOrder()">🔀 隨機抽卡</button>
+        <div class="random-select-wrap">
+            <span>🎲</span>
+            <select class="random-select" id="playModeSelect" onchange="changePlayMode(this.value)">
+                <option value="sequential" selected>由淺入深（順序）</option>
+                <option value="stageRandom">階段內隨機抽卡</option>
+                <option value="globalRandom">全階段大混洗隨機</option>
+            </select>
+        </div>
     </div>
 
     <div class="categories" id="categoryContainer"></div>
@@ -375,7 +392,6 @@
 </div>
 
 <script>
-    // 完整 413 張卡牌資料庫 (模式 A + 模式 B)
     const database = {
         A: {
             stages: [
@@ -771,7 +787,7 @@
                 { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '你有沒有曾經因為害怕失去我，而刻意隱藏過自己真實的想法？' },
                 { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '當你看到我為了生活辛苦奔波時，你心裡最想為我分擔什麼？' },
                 { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '在我們的關係中，權力與主導權是平衡的嗎？有沒有哪一方總是退讓比較多？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '如果今天是你生命中的最後一天，我們之間還有沒有任何未解的心結？' },
+                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '如果今天是你生命中的最後一天，我們還有沒有任何未解的心結？' },
                 { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '聽完我前面分享的這麼多真心話，你現在心裡最想對我說的一句話是什麼？' },
                 { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '【階段三結束儀式】請不要說話，給彼此一個長達 15 秒的深情擁抱。' },
 
@@ -896,7 +912,7 @@
 
     let currentMode = 'A';
     let currentStage = 'all';
-    let isRandom = true;
+    let playMode = 'sequential'; // 預設：由淺入深 (sequential, stageRandom, globalRandom)
     let currentList = [];
     let currentIndex = 0;
     let isFlipped = false;
@@ -944,24 +960,44 @@
         });
     }
 
+    function changePlayMode(value) {
+        playMode = value;
+        currentIndex = 0;
+        filterCards();
+    }
+
     function filterCards() {
         const all = database[currentMode].cards;
-        if (currentStage === 'all') {
+
+        if (playMode === 'globalRandom') {
+            // 全階段大混洗：直接拿該模式的所有卡片進行隨機洗牌
             currentList = [...all];
+            shuffleArray(currentList);
         } else {
-            currentList = all.filter(c => c.stage === currentStage);
+            // 依照當前選擇的分類（全部 或 各階段）過濾
+            if (currentStage === 'all') {
+                currentList = [...all];
+            } else {
+                currentList = all.filter(c => c.stage === currentStage);
+            }
+
+            // 如果是階段內隨機，對過濾後的清單洗牌
+            if (playMode === 'stageRandom') {
+                shuffleArray(currentList);
+            }
         }
+
         currentIndex = 0;
         resetCardFlip();
         updateCardDisplay();
     }
 
-    function toggleOrder() {
-        isRandom = !isRandom;
-        document.getElementById('orderBtn').innerText = isRandom ? '🔀 隨機抽卡' : '📶 由淺入深';
-        currentIndex = 0;
-        resetCardFlip();
-        updateCardDisplay();
+    // 洗牌演算法 (Fisher-Yates)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
     }
 
     function resetCardFlip() {
@@ -980,7 +1016,13 @@
         const card = currentList[currentIndex];
         
         document.getElementById('frontTitle').innerText = card.tag;
-        document.getElementById('cardCounter').innerText = isRandom ? '點擊翻開卡牌' : `順序進度：${currentIndex + 1} / ${currentList.length}`;
+        
+        if (playMode === 'sequential') {
+            document.getElementById('cardCounter').innerText = `順序進度：${currentIndex + 1} / ${currentList.length}`;
+        } else {
+            document.getElementById('cardCounter').innerText = `隨機模式（第 ${currentIndex + 1} 張）`;
+        }
+
         document.getElementById('backStage').innerText = card.tag;
         document.getElementById('questionText').innerText = card.text;
 
@@ -1025,10 +1067,15 @@
     function nextCard() {
         resetCardFlip();
         setTimeout(() => {
-            if (isRandom) {
-                currentIndex = Math.floor(Math.random() * currentList.length);
-            } else {
+            if (playMode === 'sequential') {
                 currentIndex = (currentIndex + 1) % currentList.length;
+            } else {
+                // 隨機模式下直接跳到下一個隨機洗好的索引，若到底則重新洗牌
+                currentIndex++;
+                if (currentIndex >= currentList.length) {
+                    shuffleArray(currentList);
+                    currentIndex = 0;
+                }
             }
             updateCardDisplay();
         }, 200);
@@ -1064,7 +1111,7 @@
         const rulesHtml = `
             <p><b>1. 👁️ 眼神鎖定原則：</b><br>進入「階段三」與「階段四」時，回答問題請看著對方的眼睛，不要低頭滑手機。</p>
             <p><b>2. 👂 不打斷、不辯解原則：</b><br>當對方在分享受傷或委屈時，聽的人<b>只能傾聽與擁抱，不能急著解釋</b>。等對方說完，請先說一聲：「謝謝你告訴我」。</p>
-            <p><b>3. 🛡️ 三階豁免機制（伴侶版）：</b><br>前兩次跳過題目需用「10 秒深情擁抱」交換；第三次跳過則升級為「無條件滿足對方一個小願望」！</p>
+            <p><b>3. 🛡️ 3 階豁免機制（伴侶版）：</b><br>前兩次跳過題目需用「10 秒深情擁抱」交換；第三次跳過則升級為「無條件滿足對方一個小願望」！</p>
         `;
         showModal('📖 共振軌跡 · 遊戲儀式與規則', rulesHtml);
     }
