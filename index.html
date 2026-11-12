@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>共振軌跡 Resonance - 互動心靈卡牌</title>
+    <style>
+        :root {
+            /* 預設：模式 A 深刻認識一個人 (晨曦鼠尾草綠) */
+            --bg-color: #f4f6f4;
+            --card-front-bg: #3a4f41;
+            --card-front-text: #ffffff;
+            --card-back-bg: #ffffff;
+            --text-color: #2c3531;
+            --sub-text: #6b7b73;
+            --accent-color: #52796f;
+            --border-color: #dce3de;
+            --shadow: 0 12px 35px rgba(44, 53, 49, 0.08);
+        }
+
+        /* 模式 B：深刻愛上一個人 (深夜琥珀金) */
+        body.love-mode {
+            --bg-color: #14151a;
+            --card-front-bg: #22242c;
+            --card-front-text: #f3e9dc;
+            --card-back-bg: #1c1e26;
+            --text-color: #f3e9dc;
+            --sub-text: #9a948c;
+            --accent-color: #d4a373;
+            --border-color: #2f323d;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 頂部雙模式切換器 */
+        .mode-switcher {
+            display: flex;
+            background: var(--border-color);
+            padding: 4px;
+            border-radius: 30px;
+            margin-bottom: 18px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .mode-btn {
+            flex: 1;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 26px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: var(--sub-text);
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-color);
+            color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        /* 狀態與規則列 */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+
+        .icon-btn {
+            background: var(--card-back-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-color);
+        }
+
+        /* 順序 / 隨機切換開關 */
+        .order-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--card-back-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+
+        /* 分類按鈕 */
+        .categories {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: transparent;
+            color: var(--sub-text);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .cat-btn.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        /* 3D 翻牌容器 */
+        .card-scene {
+            perspective: 1200px;
+            width: 100%;
+            height: 360px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        /* 卡背（未翻開前） */
+        .card-front {
+            background: var(--card-front-bg);
+            color: var(--card-front-text);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-front .brand {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            opacity: 0.7;
+            margin-bottom: 12px;
+        }
+
+        .card-front h2 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            margin: 0;
+        }
+
+        .card-front .tap-hint {
+            margin-top: 24px;
+            font-size: 0.75rem;
+            opacity: 0.6;
+            border: 1px solid currentColor;
+            padding: 4px 14px;
+            border-radius: 15px;
+        }
+
+        /* 卡面（題目內容） */
+        .card-back {
+            background: var(--card-back-bg);
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            border: 1px solid var(--border-color);
+            justify-content: space-between;
+        }
+
+        .card-back.action-card {
+            border: 2px solid var(--accent-color);
+        }
+
+        .stage-badge {
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 1.12rem;
+            line-height: 1.65;
+            margin: auto 0;
+            font-weight: 400;
+            overflow-y: auto;
+            max-height: 210px;
+        }
+
+        /* 科學依據與計時器區塊 */
+        .extra-tools {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .science-btn, .timer-btn {
+            background: rgba(212, 163, 115, 0.15);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* 底部控制按鈕 */
+        .controls {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .main-btn {
+            flex: 2;
+            background: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .pass-btn {
+            flex: 1;
+            background: var(--card-back-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 14px 12px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* 彈出視窗 (Modal) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.65);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-box {
+            background: var(--card-back-bg);
+            color: var(--text-color);
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            line-height: 1.6;
+        }
+
+        .modal-box h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+
+        .close-modal {
+            margin-top: 15px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* 音樂預留按鈕 */
+        .music-placeholder {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: var(--sub-text);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 雙宇宙切換 -->
+    <div class="mode-switcher">
+        <button class="mode-btn active" id="btnModeA" onclick="switchMode('A')">🌿 深刻認識一個人</button>
+        <button class="mode-btn" id="btnModeB" onclick="switchMode('B')">❤️ 深刻愛上一個人</button>
+    </div>
+
+    <!-- 頂部功能列 -->
+    <div class="top-bar">
+        <button class="icon-btn" onclick="openRules()">📖 儀式與規則</button>
+        <button class="order-toggle" id="orderBtn" onclick="toggleOrder()">🔀 隨機抽卡</button>
+    </div>
+
+    <!-- 階段分類 -->
+    <div class="categories" id="categoryContainer"></div>
+
+    <!-- 卡牌主體 -->
+    <div class="card-scene" onclick="flipCard()">
+        <div class="card" id="cardObj">
+            <div class="card-face card-front">
+                <div class="brand">RESONANCE · 共振軌跡</div>
+                <h2 id="frontTitle">點擊翻開卡牌</h2>
+                <div class="tap-hint" id="cardCounter">第 1 張</div>
+            </div>
+            <div class="card-face card-back" id="cardBackFace">
+                <div class="stage-badge" id="backStage">階段一</div>
+                <div class="question-text" id="questionText">載入中...</div>
+                <div class="extra-tools" id="extraTools" onclick="event.stopPropagation()"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 操作按鈕 -->
+    <div class="controls">
+        <button class="pass-btn" id="passBtn" onclick="usePass()">🛡️ 豁免 (<span id="passCount">3</span>/3)</button>
+        <button class="main-btn" onclick="nextCard()">抽下一張卡 ➔</button>
+    </div>
+
+    <!-- 未來音樂預留位 -->
+    <div class="music-placeholder">🎵 背景音樂模組已預留（待挑選音樂後啟用）</div>
+</div>
+
+<!-- 彈出視窗 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <h3 id="modalTitle">標題</h3>
+        <div id="modalBody" style="font-size: 0.9rem; text-align: left;">內容</div>
+        <button class="close-modal" onclick="closeModal()">我明白了</button>
+    </div>
+</div>
+
+<script>
+    // 預覽版題庫（確認手感後，我們會把 413 張完整題庫灌入這裡）
+    const database = {
+        A: {
+            stages: [
+                { id: 'all', name: '全部題目' },
+                { id: '1', name: '一：微光破冰' },
+                { id: '2', name: '二：直覺盲猜' },
+                { id: '3', name: '三：價值稜鏡' },
+                { id: '4', name: '四：靈魂獨白' },
+                { id: 'action', name: '✨ 行為互動卡' }
+            ],
+            cards: [
+                { stage: '1', tag: '階段一 · 微光破冰', text: '如果你的手機裡只能留三個 App（除了通訊軟體），你會留哪三個？' },
+                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】你覺得我生氣或不高興的時候，通常會有哪些明顯的肢體語言或語氣變化？' },
+                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '在你的價值觀裡，「賺大錢過奢華生活」跟「錢夠用但擁有大量自由時間」，哪個對你更重要？' },
+                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在眾聲喧嘩的派對或聚會結束、一個人回到安靜房間的那個瞬間，你心裡最常湧現的是什麼感覺？' },
+                { 
+                    stage: 'action', 
+                    tag: '✨ 行為互動卡 · 零肢體接觸', 
+                    isAction: true,
+                    text: '【正向放大鏡】輪流分享一件「最近一週讓你感到開心或有成就感的小事」。聽的人在 60 秒內必須熱情追問細節，不准滑手機或敷衍！',
+                    science: '【心理學依據】源自正向心理學家 Shelly Gable 發表於《人格與社會心理學期刊》的積極建構式回應（ACR）研究：熱情追問好消息的細節，能顯著提升雙方的信任感與親密連結。'
+                }
+            ]
+        },
+        B: {
+            stages: [
+                { id: 'all', name: '全部題目' },
+                { id: '1', name: '一：愛情地圖' },
+                { id: '2', name: '二：依附紋理' },
+                { id: '3', name: '三：靈魂暗室' },
+                { id: '4', name: '四：未來誓言' },
+                { id: 'action', name: '🔬 心理學指引卡' }
+            ],
+            cards: [
+                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '最近這一個月裡，我做過哪一件微不足道的小事，其實讓你心裡偷偷暖了一下？' },
+                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '在五種「愛的語言」（肯定的言詞、精心的時刻、接受禮物、服務的行動、身體的接觸）中，你最渴望哪兩種？' },
+                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '在我們這段關係裡，有沒有哪一次你其實受了傷或覺得委屈，但為了不想吵架而選擇吞下去沒說？' },
+                { stage: '4', tag: '階段四 · 深層共鳴與誓言', text: '如果今天是我們「重新認識的第一天」，以你現在對我的了解，你還會毫不猶豫地愛上我嗎？' },
+                { 
+                    stage: 'action', 
+                    tag: '🔬 心理學實證指引卡', 
+                    isAction: true,
+                    timer: 240,
+                    text: '【四分鐘靈魂凝視】放下手機，面對面坐好。按下計時器開始 4 分鐘，不准說話、不准笑場，專注看著對方的眼睛。',
+                    science: '【神經科學與心理學依據】源自社會心理學家 Arthur Aron 的親密實驗。持續 4 分鐘不間斷的眼神接觸，會暫時關閉大腦防禦機制，啟動鏡像神經元並促進「催產素（愛情荷爾蒙）」分泌，重燃強烈心動感。'
+                },
+                { 
+                    stage: 'action', 
+                    tag: '🔬 心理學實證指引卡', 
+                    isAction: true,
+                    timer: 20,
+                    text: '【20 秒催產素深層擁抱】站起來給彼此一個紮實、全心全意的擁抱，維持 20 秒以上，在心裡默數呼吸，不要急著放開。',
+                    science: '【生理學依據】北卡羅來納大學 Karen Grewen 博士研究證實，擁抱必須持續超過 20 秒，腦下垂體才會大量釋放催產素並降低壓力荷爾蒙「皮質醇」，向大腦傳遞最深層的安全感訊號。'
+                }
+            ]
+        }
+    };
+
+    let currentMode = 'A';
+    let currentStage = 'all';
+    let isRandom = true;
+    let currentList = [];
+    let currentIndex = 0;
+    let isFlipped = false;
+    let passRemaining = 3;
+    let timerInterval = null;
+
+    function init() {
+        renderCategories();
+        filterCards();
+    }
+
+    function switchMode(mode) {
+        currentMode = mode;
+        currentStage = 'all';
+        passRemaining = 3;
+        document.getElementById('passCount').innerText = passRemaining;
+
+        document.getElementById('btnModeA').classList.toggle('active', mode === 'A');
+        document.getElementById('btnModeB').classList.toggle('active', mode === 'B');
+        document.body.classList.toggle('love-mode', mode === 'B');
+
+        // 模式 A 顯示「禮貌換題」，模式 B 顯示「三階豁免」
+        const passBtn = document.getElementById('passBtn');
+        if (mode === 'A') {
+            passBtn.innerHTML = '🔄 換一題';
+        } else {
+            passBtn.innerHTML = `🛡️ 豁免 (<span id="passCount">${passRemaining}</span>/3)`;
+        }
+
+        renderCategories();
+        filterCards();
+    }
+
+    function renderCategories() {
+        const container = document.getElementById('categoryContainer');
+        container.innerHTML = '';
+        database[currentMode].stages.forEach(st => {
+            const btn = document.createElement('button');
+            btn.className = 'cat-btn' + (st.id === currentStage ? ' active' : '');
+            btn.innerText = st.name;
+            btn.onclick = () => {
+                currentStage = st.id;
+                renderCategories();
+                filterCards();
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    function filterCards() {
+        const all = database[currentMode].cards;
+        if (currentStage === 'all') {
+            currentList = [...all];
+        } else {
+            currentList = all.filter(c => c.stage === currentStage);
+        }
+        currentIndex = 0;
+        resetCardFlip();
+        updateCardDisplay();
+    }
+
+    function toggleOrder() {
+        isRandom = !isRandom;
+        document.getElementById('orderBtn').innerText = isRandom ? '🔀 隨機抽卡' : '📶 由淺入深';
+        currentIndex = 0;
+        resetCardFlip();
+        updateCardDisplay();
+    }
+
+    function resetCardFlip() {
+        clearInterval(timerInterval);
+        isFlipped = false;
+        document.getElementById('cardObj').classList.remove('is-flipped');
+    }
+
+    function flipCard() {
+        isFlipped = !isFlipped;
+        document.getElementById('cardObj').classList.toggle('is-flipped', isFlipped);
+    }
+
+    function updateCardDisplay() {
+        if (currentList.length === 0) return;
+        const card = currentList[currentIndex];
+        
+        document.getElementById('frontTitle').innerText = card.tag;
+        document.getElementById('cardCounter').innerText = isRandom ? '點擊翻開卡牌' : `順序進度：${currentIndex + 1} / ${currentList.length}`;
+        document.getElementById('backStage').innerText = card.tag;
+        document.getElementById('questionText').innerText = card.text;
+
+        const backFace = document.getElementById('cardBackFace');
+        backFace.classList.toggle('action-card', !!card.isAction);
+
+        const extraTools = document.getElementById('extraTools');
+        extraTools.innerHTML = '';
+
+        // 若有計時器需求
+        if (card.timer) {
+            const tBtn = document.createElement('button');
+            tBtn.className = 'timer-btn';
+            tBtn.innerText = `⏱️ 啟動倒數計時 (${card.timer} 秒)`;
+            tBtn.onclick = () => startTimer(tBtn, card.timer);
+            extraTools.appendChild(tBtn);
+        }
+
+        // 若有科學依據
+        if (card.science) {
+            const sBtn = document.createElement('button');
+            sBtn.className = 'science-btn';
+            sBtn.innerText = '🔬 查看背後的心理學依據';
+            sBtn.onclick = () => showModal('科學與心理學研究依據', card.science);
+            extraTools.appendChild(sBtn);
+        }
+    }
+
+    function startTimer(btn, seconds) {
+        clearInterval(timerInterval);
+        let left = seconds;
+        btn.innerText = `⏳ 剩餘 ${left} 秒...（請專注彼此）`;
+        timerInterval = setInterval(() => {
+            left--;
+            if (left <= 0) {
+                clearInterval(timerInterval);
+                btn.innerText = '✨ 時間到！請分享彼此的感受';
+            } else {
+                btn.innerText = `⏳ 剩餘 ${left} 秒...（請專注彼此）`;
+            }
+        }, 1000);
+    }
+
+    function nextCard() {
+        resetCardFlip();
+        setTimeout(() => {
+            if (isRandom) {
+                currentIndex = Math.floor(Math.random() * currentList.length);
+            } else {
+                currentIndex = (currentIndex + 1) % currentList.length;
+            }
+            updateCardDisplay();
+        }, 200);
+    }
+
+    function usePass() {
+        if (currentMode === 'A') {
+            nextCard();
+            return;
+        }
+
+        if (passRemaining === 3) {
+            passRemaining--;
+            document.getElementById('passCount').innerText = passRemaining;
+            showModal('🛡️ 使用第 1 次豁免權', '沒關係，這題我們先跳過！<br><br><b>交換條件：</b>請給對方一個長達 <b>10 秒的深情擁抱</b>，然後點擊「抽下一張卡」。');
+            nextCard();
+        } else if (passRemaining === 2) {
+            passRemaining--;
+            document.getElementById('passCount').innerText = passRemaining;
+            showModal('🛡️ 使用第 2 次豁免權', '這是最後一次擁抱豁免囉！<br><br><b>交換條件：</b>再給對方一個 <b>10 秒的深情擁抱（或親吻額頭）</b>，安全過關！');
+            nextCard();
+        } else if (passRemaining === 1) {
+            passRemaining--;
+            document.getElementById('passCount').innerText = passRemaining;
+            showModal('👑 終極許願豁免啟動！', '前兩次擁抱額度已用完！這次跳過題目，你必須<b>無條件答應對方的一個小願望</b>（例如：幫忙煮一頓飯、按摩 15 分鐘、或準備一份小禮物）！');
+            nextCard();
+        } else {
+            showModal('⚠️ 豁免額度已全數用完', '3 次豁免權都已經使用完畢囉！這題必須鼓起勇氣真誠回答，加油！');
+        }
+    }
+
+    function openRules() {
+        const rulesHtml = `
+            <p><b>1. 👁️ 眼神鎖定原則：</b><br>進入「階段三」與「階段四」時，回答問題請看著對方的眼睛，不要低頭滑手機。</p>
+            <p><b>2. 👂 不打斷、不辯解原則：</b><br>當對方在分享受傷或委屈時，聽的人<b>只能傾聽與擁抱，不能急著解釋</b>。等對方說完，請先說一聲：「謝謝你告訴我」。</p>
+            <p><b>3. 🛡️ 三階豁免機制（伴侶版）：</b><br>前兩次跳過題目需用「10 秒深情擁抱」交換；第三次跳過則升級為「無條件滿足對方一個小願望」！</p>
+        `;
+        showModal('📖 共振軌跡 · 遊戲儀式與規則', rulesHtml);
+    }
+
+    function showModal(title, htmlContent) {
+        document.getElementById('modalTitle').innerHTML = title;
+        document.getElementById('modalBody').innerHTML = htmlContent;
+        document.getElementById('modalOverlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    init();
+</script>
+</body>
+</html>
