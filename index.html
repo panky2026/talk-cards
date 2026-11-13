@@ -6,19 +6,19 @@
     <title>共振軌跡 Resonance - 互動心靈卡牌</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f4f6f4;
             --bg-gradient: radial-gradient(circle at 50% 0%, #ffffff 0%, #eef2ef 100%);
             --card-front-bg: linear-gradient(145deg, #3d5447 0%, #2c3e34 100%);
             --card-front-text: #fcfdfc;
-            --card-back-bg: rgba(255, 255, 255, 0.88);
-            --text-color: #242e29;
-            --sub-text: #6e7d75;
+            --card-back-bg: rgba(255, 255, 255, 0.9);
+            --text-color: #1a2420;
+            --sub-text: #5c6b63;
             --accent-color: #486659;
             --border-color: #d6ded8;
-            --card-inner-border: rgba(72, 102, 89, 0.16);
+            --card-inner-border: rgba(72, 102, 89, 0.2);
             --shadow-rest: 
                 0 20px 40px -12px rgba(36, 46, 41, 0.16),
                 0 4px 12px -2px rgba(36, 46, 41, 0.08),
@@ -34,12 +34,12 @@
             --bg-gradient: radial-gradient(circle at 50% 0%, #1c1e26 0%, #0d0e12 100%);
             --card-front-bg: linear-gradient(145deg, #252833 0%, #161820 100%);
             --card-front-text: #f3e9dc;
-            --card-back-bg: rgba(26, 28, 37, 0.85);
-            --text-color: #f3e9dc;
-            --sub-text: #8c867e;
+            --card-back-bg: rgba(26, 28, 37, 0.88);
+            --text-color: #f8f1e9;
+            --sub-text: #9e978e;
             --accent-color: #c49564;
             --border-color: #2b2e3b;
-            --card-inner-border: rgba(196, 149, 100, 0.22);
+            --card-inner-border: rgba(196, 149, 100, 0.28);
             --shadow-rest: 
                 0 25px 50px -12px rgba(0, 0, 0, 0.65),
                 0 6px 16px -3px rgba(0, 0, 0, 0.4),
@@ -92,7 +92,7 @@
             padding: 10px 14px;
             border-radius: 26px;
             font-size: 0.88rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             background: transparent;
             color: var(--sub-text);
@@ -128,7 +128,8 @@
             padding: 8px 13px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 500;
             transition: all 0.25s;
             display: flex;
             align-items: center;
@@ -150,6 +151,7 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
+            font-weight: 500;
             color: var(--text-color);
             margin-left: auto;
         }
@@ -159,6 +161,7 @@
             border: none;
             color: var(--text-color);
             font-size: 0.8rem;
+            font-weight: 500;
             cursor: pointer;
             outline: none;
             font-family: inherit;
@@ -178,7 +181,8 @@
             border: 1px solid var(--border-color);
             padding: 6px 14px;
             border-radius: 18px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.25s;
         }
@@ -275,17 +279,18 @@
         }
 
         .card-front .brand {
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             letter-spacing: 4px;
-            opacity: 0.65;
+            opacity: 0.7;
             margin-bottom: 16px;
             text-transform: uppercase;
+            font-weight: 600;
         }
 
         .card-front h2 {
             font-family: 'Noto Serif TC', serif;
-            font-size: 1.38rem;
-            font-weight: 400;
+            font-size: 1.4rem;
+            font-weight: 600;
             letter-spacing: 2px;
             margin: 0;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
@@ -293,10 +298,11 @@
 
         .card-front .tap-hint {
             margin-top: 30px;
-            font-size: 0.74rem;
-            opacity: 0.6;
+            font-size: 0.76rem;
+            font-weight: 500;
+            opacity: 0.7;
             letter-spacing: 1.5px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.35);
             padding: 5px 18px;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.04);
@@ -331,28 +337,28 @@
         }
 
         .stage-badge {
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             color: var(--accent-color);
-            font-weight: 500;
+            font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            background: rgba(72, 102, 89, 0.09);
+            background: rgba(72, 102, 89, 0.1);
             padding: 5px 14px;
             border-radius: 14px;
-            border: 1px solid rgba(72, 102, 89, 0.12);
+            border: 1px solid rgba(72, 102, 89, 0.15);
         }
 
         body.love-mode .stage-badge {
-            background: rgba(196, 149, 100, 0.12);
-            border-color: rgba(196, 149, 100, 0.18);
+            background: rgba(196, 149, 100, 0.14);
+            border-color: rgba(196, 149, 100, 0.22);
         }
 
         .question-text {
             font-family: 'Noto Serif TC', serif;
-            font-size: 1.14rem;
-            line-height: 1.78;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            font-weight: 600;
             margin: auto 0;
-            font-weight: 400;
             overflow-y: auto;
             max-height: 210px;
             padding: 0 10px;
@@ -372,14 +378,14 @@
             border: 1px solid var(--accent-color);
             padding: 7px 12px;
             border-radius: 12px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
             transition: all 0.2s;
         }
 
         body.love-mode .science-btn, body.love-mode .timer-btn {
-            background: rgba(196, 149, 100, 0.1);
+            background: rgba(196, 149, 100, 0.12);
         }
 
         .controls {
@@ -396,8 +402,8 @@
             border: none;
             padding: 15px 20px;
             border-radius: 30px;
-            font-size: 0.92rem;
-            font-weight: 500;
+            font-size: 0.95rem;
+            font-weight: 600;
             letter-spacing: 0.5px;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(0,0,0,0.12);
@@ -413,7 +419,8 @@
             border: 1px solid var(--border-color);
             padding: 15px 12px;
             border-radius: 30px;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
+            font-weight: 650;
             cursor: pointer;
             transition: transform 0.15s ease, background 0.2s;
         }
@@ -449,8 +456,8 @@
             font-family: 'Noto Serif TC', serif;
             color: var(--accent-color);
             margin-top: 0;
-            font-weight: 500;
-            font-size: 1.15rem;
+            font-weight: 600;
+            font-size: 1.2rem;
         }
 
         .close-modal {
@@ -461,7 +468,8 @@
             padding: 10px 26px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
+            font-weight: 600;
         }
 
         .music-placeholder {
@@ -476,7 +484,7 @@
             width: 15px;
             height: 15px;
             stroke: currentColor;
-            stroke-width: 1.8;
+            stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
             fill: none;
@@ -543,13 +551,13 @@
         <button class="main-btn" onclick="nextCard()">下一張卡片</button>
     </div>
 
-    <div class="music-placeholder">Safe Tactile Engine Initialized</div>
+    <div class="music-placeholder">100-Card Relationship Science Edition Enabled</div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
     <div class="modal-box" onclick="event.stopPropagation()">
         <h3 id="modalTitle">標題</h3>
-        <div id="modalBody" style="font-size: 0.9rem; text-align: left;">內容</div>
+        <div id="modalBody" style="font-size: 0.92rem; text-align: left; font-weight: 500;">內容</div>
         <button class="close-modal" onclick="closeModal()">確認了解</button>
     </div>
 </div>
@@ -861,7 +869,7 @@
                 { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在深夜失眠時，你腦海裡盤旋最久的一個問題是什麼？' },
                 { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己有沒有遺傳到父母某一個讓你覺得無奈、卻又甩不掉的特質？' },
                 { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當別人無意間稱讚你時，你第一反應是開心接受，還是覺得你只是在客套？' },
-                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有無過「雖然當時快撐不下去了，但很感謝當初咬牙堅持的自己」的時刻？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有沒有過「雖然當時快撐不下去了，但很感謝當初咬牙堅持的自己」的時刻？' },
                 { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己是一個容易原諒自己的人嗎？還是會對過去犯的蠢事耿耿於懷？' },
                 { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在人際關係中，你最怕遇到的狀況是什麼？（被背叛、被冷落、還是被拋棄？）' },
                 { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果可以向我坦白一件你平常絕對不會對別人說的真心話，會是什麼？' },
@@ -914,9 +922,11 @@
                 { id: '2', name: '二：依附紋理' },
                 { id: '3', name: '三：靈魂暗室' },
                 { id: '4', name: '四：未來誓言' },
+                { id: '5', name: '五：衝突與共識' },
                 { id: 'action', name: '心理學指引卡' }
             ],
             cards: [
+                // 階段一：愛情地圖重繪 (20題)
                 { stage: '1', tag: 'Stage I · 愛情地圖', text: '如果今天我們是第一次在街角偶遇，以你現在的眼光，第一眼會被我身上的哪個細節吸引？' },
                 { stage: '1', tag: 'Stage I · 愛情地圖', text: '最近這一個月裡，我做過哪一件微不足道的小事，其實讓你心裡偷偷暖了一下？' },
                 { stage: '1', tag: 'Stage I · 愛情地圖', text: '在你眼裡，當我累到極點或壓力大到快崩潰時，會有什麼連我自己都沒發現的小動作？' },
@@ -927,29 +937,62 @@
                 { stage: '1', tag: 'Stage I · 愛情地圖', text: '最近一次你偷偷看著我、在心裡覺得「有你在真好」是什麼時候？' },
                 { stage: '1', tag: 'Stage I · 愛情地圖', text: '如果今天我們可以完全不顧預算與時間，立刻瞬移去任何地方待 24 小時，你想帶我去哪裡？' },
                 { stage: '1', tag: 'Stage I · 愛情地圖', text: '在你心目中，我做過最可愛、或最笨拙的一件事是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '你覺得我最近這半年內，心境或生活重心最大的轉變是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '在我的所有朋友或家人面前，你覺得我是一個什麼樣的人？跟我私底下有落差嗎？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '每次我們一起出門旅行時，你覺得我最讓你安心跟最讓你頭痛的地方分別是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '你覺得我平時最常掛在嘴邊的一句口頭禪或抱怨是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '如果用一道菜來形容我的脾氣與個性，你覺得會是什麼味道？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '在我們認識的這段期間裡，哪一個瞬間讓你覺得「我們真的越來越有默契了」？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '你覺得我對自己的外表或哪一項才華最沒有自信？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '回想我們第一次正式約會或獨處時，你當時心裡對我的真實評語是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '你覺得我壓力大時，最喜歡吃什麼或做什麼來療癒自己？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '如果我們能舉辦一場夢想中的慶祝派對，你希望它是溫馨居家、還是盛大熱鬧？' },
 
+                // 階段二：依附與記憶紋理 (20題)
                 { stage: '2', tag: 'Stage II · 依附紋理', text: '在你的成長過程中，哪一個人或哪一件事，最深刻地塑造了你現在看待愛情的方式？' },
-                { stage: '2', tag: 'Stage II · 依附紋理', text: '在五種愛的語言中，你最渴望哪兩種？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '在五種愛的語言（肯定言詞、精心時刻、接受禮物、服務行動、身體接觸）中，你最渴望哪兩種？' },
                 { stage: '2', tag: 'Stage II · 依附紋理', text: '當你感到極度沮喪或自我懷疑時，你最希望我用什麼方式陪在你身邊？' },
                 { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得自己是一個容易把委屈吞下去的人嗎？是什麼原因讓你養成這個習慣？' },
                 { stage: '2', tag: 'Stage II · 依附紋理', text: '你最害怕在伴侶面前暴露自己的哪一種情緒？' },
                 { stage: '2', tag: 'Stage II · 依附紋理', text: '在親密關係裡，「被徹底理解」跟「被無條件支持」，哪一個對你更重要？' },
-                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得你在親密關係裡，最常出現的防禦機制是什麼？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得你在親密關係裡，最常出現的防禦機制是什麼？（冷戰、防備、開玩笑帶過？）' },
                 { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得自己是屬於焦慮型、逃避型還是安全型依附？' },
-                { stage: '2', tag: 'Stage II · 依附紋理', text: '你曾經在過去的感情裡為了討好對方而壓抑過自己嗎？在我面前可以做自己嗎？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你曾經在過去的感情裡為了討好對方而壓抑過自己嗎？在我面前可以完全做自己嗎？' },
                 { stage: '2', tag: 'Stage II · 依附紋理', text: '當我們發生冷戰或僵持不下時，你心裡其實在等我做什麼動作？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得原生家庭的相處模式，對你現在處理情感衝突的方式造成了什麼影響？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '當你感到沒有安全感時，具體會有哪些外在表現？我該如何第一時間接住你？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你認為在愛情中，「保持個人獨立空間」與「毫無保留黏在一起」的最佳平衡點在哪裡？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得自己是一個很需要被稱讚跟肯定的人嗎？還是習慣默默努力？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '在過去的人生經驗中，哪一次經驗讓你學會了「不要輕易對別人敞開心房」？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得我身上有沒有哪一個特質，剛好安撫了你內心深處某個不安的部分？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '當你看到別的情侶放閃或吵架時，你心裡最嚮往或最警惕的模式是什麼？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得要讓一個人真正走進你心裡，最關鍵的條件是什麼？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '在你心裡，愛一個人跟喜歡一個人最大的分水嶺是什麼？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '如果今天我們必須在「黏膩的陪伴」和各自專注事業中切換，你心態調整得好嗎？' },
 
+                // 階段三：靈魂暗室 (20題)
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在我們這段關係裡，有沒有哪一次你其實受了傷或覺得委屈，但為了不想吵架而選擇吞下去？' },
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你曾經在心裡偷偷害怕過我們有一天會走散或不再愛你嗎？那是什麼時候？' },
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在你面對我的時候，有沒有哪一個瞬間你其實感到孤單或覺得我沒有真正懂你？' },
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你最害怕我看到你哪一個不完美、甚至有點不堪或脆弱的一面？' },
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '如果這段關係裡有哪一個部分讓你感到疲憊或有壓力，你願意現在坦誠告訴我嗎？' },
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在我們相處的過程中，我無意間說過或做過哪一件事，其實曾經深深刺痛過你？' },
-                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '當我們發生爭執氣氛降到冰點時，你內心最真實的恐懼是什麼？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '當我們發生爭執氣氛降到冰點時，你內心最真實的恐懼是什麼？（怕被拋棄、怕被誤解？）' },
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在你最脆弱、最狼狽、人生最低潮的時候，你敢完全不加掩飾地讓我看到嗎？' },
                 { stage: '3', tag: 'Stage III · 靈魂暗室', text: '有沒有哪一句對不起或謝謝你，是你一直欠我、或覺得我欠你的？' },
-                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '【階段三結束儀式】請不要說話，給彼此一個長達 15 秒的深情擁抱。' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '【階段三儀式】請不要說話，給彼此一個長達 15 秒的深情擁抱。' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你有沒有哪一個過去的情感陰影，到現在偶爾還會影響你對我的信任？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你覺得自己有沒有時候對我要求太高，或者把對自己的不滿轉嫁到我身上？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '當我忽略你的感受時，你心裡最真實的失望是什麼樣子？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你有沒有什麼祕密或心事，是連最好的朋友都不知道，但你願意告訴我？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你覺得在我們這段關係裡，最需要被改善或修復的一個老問題是什麼？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '當你覺得自己快要失去耐心時，通常是因為甚麼樣的溝通死角？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你有沒有過「雖然很愛對方，但覺得好累」的瞬間？當時你在想什麼？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你覺得我們之間有沒有存在著「雙方心照不宣卻都不敢戳破」的小疙瘩？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在經歷過那些摩擦後，你覺得我們現在比以前更懂得包容彼此了嗎？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '請坦誠告訴對方：此時此刻，你最需要對方對你說的一句承諾是什麼。' },
 
+                // 階段四：未來誓言 (20題)
                 { stage: '4', tag: 'Stage IV · 未來誓言', text: '在聽完前面這麼多深層問題後，你對我產生了什麼新的認識或重新心動的感覺？' },
                 { stage: '4', tag: 'Stage IV · 未來誓言', text: '想像一下十年後的我們在一個普通的週末早晨醒來，你希望那畫面是什麼樣子的？' },
                 { stage: '4', tag: 'Stage IV · 未來誓言', text: '在你心中，深刻地愛上一個人究竟是什麼意思？你覺得我們正在這條路上嗎？' },
@@ -960,7 +1003,40 @@
                 { stage: '4', tag: 'Stage IV · 未來誓言', text: '在我們共度的所有時光裡，如果只能保留一段記憶帶進下輩子，你會選哪一段？' },
                 { stage: '4', tag: 'Stage IV · 未來誓言', text: '看著我的眼睛，真誠地告訴我三個你現在依然深愛著我的理由。' },
                 { stage: '4', tag: 'Stage IV · 未來誓言', text: '【最終卡】請各自寫下「接下來這一年，我最想為你做的一件事」，交換並大聲念出來。' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '你覺得我們老了以後，會是一個怎樣相處模式的老夫老妻？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '如果要用一句話來定義我們之間無可取代的默契，那會是什麼？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '你希望我們的未來生活裡，絕對不能缺少的三個核心元素是什麼？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '當你想像我們一起去實現某個夢想時，你心裡最期待的部分是什麼？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '你覺得我們彼此配合得最好的地方在哪裡？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '如果生活遇到重大挫折，你希望我們兩個如何攜手度過？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '你覺得我帶給你的人生最棒的禮物是什麼？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '在未來的日子裡，你最想和我一起解鎖哪一個未完成的體驗？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '你對於「白頭偕老」這四個字，現在有了怎樣更具體的畫面？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '請給此時此刻的彼此一個微笑，並說一句：「有你在，真好。」' },
 
+                // 階段五：衝突與共識（EFT 與現實摩擦題，20題）
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '當我們對某件事情意見分歧時，你最希望我先聽你說道理，還是先同理你的情緒？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '談談你對於「金錢與理財」的底線在哪裡？我們該如何避免因為錢而產生摩擦？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '當雙方都處於高壓或疲憊狀態時，我們通常該如何避免無謂的口角？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '你覺得在面對雙方家人或社交應酬時，我們該如何建立最有默契的界線？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '當你吵架脫口說出氣話後，你心裡通常希望對方怎麼把你拉回來？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '你認為情侶之間有沒有「絕對不能拿來開玩笑或當成吵架武器」的地雷區？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '在經歷一場激烈的爭吵後，通常是誰先打破僵局？你喜歡這個和解節奏嗎？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '你對於未來生活環境（住哪裡、生活型態）有沒有什麼絕對不能妥協的堅持？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '當你覺得我沒有把你的話聽進去時，你心裡的真實感受是什麼？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '我們該如何確保在忙碌的生活中，依然能保有屬於兩個人的專屬約會時光？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '你覺得在意見不合時，妥協跟堅持自己的原則，哪個比例比較健康？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '如果因為工作或生活規劃必須短暫分隔兩地，你覺得我們該如何維持安全感？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '當你發現對方犯了一個小錯誤時，你通常是選擇直接指正、默默幫忙、還是先觀察？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '你覺得我們在溝通時，最常出現的盲點或誤會是什麼？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '對於未來的重大開銷或投資決策，你希望我們採取完全透明共管，還是各自獨立？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '當你心情不好波及到我時，事後你會怎麼跟我道歉或調整？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '你覺得情侶之間需要保有各自的「祕密基地」或隱私空間嗎？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '當我們對某個朋友或外部事件看法完全相反時，通常會怎麼溝通？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '你覺得我們有沒有哪一次的爭吵，反而因禍得福讓感情更好了？' },
+                { stage: '5', tag: 'Stage V · 衝突共識', text: '請互相承諾：下一次吵架時，我們一定要遵守「不人身攻擊、不說分手/離婚」的底線。' },
+
+                // 心理學指引卡
                 { 
                     stage: 'action', 
                     tag: 'Science · 心理學指引', 
@@ -1280,7 +1356,6 @@
         if (modalOverlay) modalOverlay.style.display = 'none';
     }
 
-    // 確保 DOM 載入完成後執行初始化
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
