@@ -4,29 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>共振軌跡 Resonance - 互動心靈卡牌</title>
+    <!-- 引入思源宋體 (Noto Serif TC) 提升文學與高級感 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f4f6f4;
-            --card-front-bg: #3a4f41;
-            --card-front-text: #ffffff;
+            --bg-color: #f7f9f7;
+            --card-front-bg: #354a3e;
+            --card-front-text: #fcfdfc;
             --card-back-bg: #ffffff;
-            --text-color: #2c3531;
-            --sub-text: #6b7b73;
-            --accent-color: #52796f;
-            --border-color: #dce3de;
-            --shadow: 0 12px 35px rgba(44, 53, 49, 0.08);
+            --text-color: #242e29;
+            --sub-text: #6e7d75;
+            --accent-color: #486659;
+            --border-color: #d6ded8;
+            --card-inner-border: rgba(72, 102, 89, 0.15);
+            --shadow: 0 15px 40px rgba(36, 46, 41, 0.06);
         }
 
         body.love-mode {
-            --bg-color: #14151a;
-            --card-front-bg: #22242c;
+            --bg-color: #121318;
+            --card-front-bg: #1c1e26;
             --card-front-text: #f3e9dc;
-            --card-back-bg: #1c1e26;
+            --card-back-bg: #171921;
             --text-color: #f3e9dc;
-            --sub-text: #9a948c;
-            --accent-color: #d4a373;
-            --border-color: #2f323d;
-            --shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+            --sub-text: #8c867e;
+            --accent-color: #c49564;
+            --border-color: #2b2e3b;
+            --card-inner-border: rgba(196, 149, 100, 0.2);
+            --shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
         }
 
         body {
@@ -34,28 +40,29 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px 15px;
+            padding: 30px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            transition: background-color 0.5s ease, color 0.5s ease;
+            transition: background-color 0.6s ease, color 0.6s ease;
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 440px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
+        /* 模式切換 */
         .mode-switcher {
             display: flex;
             background: var(--border-color);
             padding: 4px;
             border-radius: 30px;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
             width: 100%;
             box-sizing: border-box;
         }
@@ -63,28 +70,33 @@
         .mode-btn {
             flex: 1;
             border: none;
-            padding: 10px 12px;
+            padding: 10px 14px;
             border-radius: 26px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.88rem;
+            font-weight: 500;
             cursor: pointer;
             background: transparent;
             color: var(--sub-text);
-            transition: all 0.3s ease;
+            transition: all 0.35s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         .mode-btn.active {
             background: var(--accent-color);
             color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
+        /* 頂部選單列 */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             font-size: 0.85rem;
         }
 
@@ -92,11 +104,14 @@
             background: var(--card-back-bg);
             color: var(--text-color);
             border: 1px solid var(--border-color);
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.8rem;
-            transition: all 0.2s;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .random-select-wrap {
@@ -105,7 +120,7 @@
             gap: 6px;
             background: var(--card-back-bg);
             border: 1px solid var(--border-color);
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             color: var(--text-color);
@@ -121,11 +136,12 @@
             font-family: inherit;
         }
 
+        /* 分類標籤列 */
         .categories {
             display: flex;
             gap: 6px;
             justify-content: center;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
             flex-wrap: wrap;
         }
 
@@ -133,7 +149,7 @@
             background: transparent;
             color: var(--sub-text);
             border: 1px solid var(--border-color);
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 18px;
             font-size: 0.78rem;
             cursor: pointer;
@@ -146,11 +162,12 @@
             color: #ffffff;
         }
 
+        /* 卡牌場景與 3D 結構 */
         .card-scene {
             perspective: 1200px;
             width: 100%;
             height: 380px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             cursor: pointer;
         }
 
@@ -159,7 +176,7 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.7s cubic-bezier(0.34, 1.45, 0.64, 1);
             border-radius: 24px;
             box-shadow: var(--shadow);
         }
@@ -178,40 +195,58 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 28px;
+            padding: 24px;
             box-sizing: border-box;
             text-align: center;
         }
 
+        /* 卡牌正面 */
         .card-front {
             background: var(--card-front-bg);
             color: var(--card-front-text);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .card-front-inner {
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .card-front .brand {
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            opacity: 0.7;
-            margin-bottom: 12px;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            opacity: 0.65;
+            margin-bottom: 14px;
+            text-transform: uppercase;
         }
 
         .card-front h2 {
-            font-size: 1.3rem;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.35rem;
             font-weight: 400;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             margin: 0;
         }
 
         .card-front .tap-hint {
-            margin-top: 24px;
+            margin-top: 28px;
             font-size: 0.75rem;
-            opacity: 0.6;
+            opacity: 0.55;
+            letter-spacing: 1px;
             border: 1px solid currentColor;
-            padding: 4px 14px;
-            border-radius: 15px;
+            padding: 5px 16px;
+            border-radius: 20px;
         }
 
+        /* 卡牌背面 */
         .card-back {
             background: var(--card-back-bg);
             color: var(--text-color);
@@ -220,24 +255,48 @@
             justify-content: space-between;
         }
 
-        .card-back.action-card {
-            border: 2px solid var(--accent-color);
+        .card-back-inner {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--card-inner-border);
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
+        .card-back.action-card {
+            border: 1.5px solid var(--accent-color);
+        }
+
+        /* 階段精緻膠囊標籤 */
         .stage-badge {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--accent-color);
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(72, 102, 89, 0.08);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        body.love-mode .stage-badge {
+            background: rgba(196, 149, 100, 0.1);
         }
 
         .question-text {
-            font-size: 1.1rem;
-            line-height: 1.65;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.12rem;
+            line-height: 1.75;
             margin: auto 0;
             font-weight: 400;
             overflow-y: auto;
-            max-height: 220px;
+            max-height: 200px;
+            padding: 0 10px;
         }
 
         .extra-tools {
@@ -245,20 +304,26 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .science-btn, .timer-btn {
-            background: rgba(212, 163, 115, 0.15);
+            background: rgba(72, 102, 89, 0.08);
             color: var(--accent-color);
             border: 1px solid var(--accent-color);
             padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+            border-radius: 10px;
+            font-size: 0.78rem;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 500;
+            transition: all 0.2s;
         }
 
+        body.love-mode .science-btn, body.love-mode .timer-btn {
+            background: rgba(196, 149, 100, 0.1);
+        }
+
+        /* 底部控制按鈕 */
         .controls {
             display: flex;
             gap: 12px;
@@ -273,10 +338,11 @@
             border: none;
             padding: 14px 20px;
             border-radius: 30px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.92rem;
+            font-weight: 500;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: opacity 0.2s;
         }
 
         .pass-btn {
@@ -288,13 +354,16 @@
             border-radius: 30px;
             font-size: 0.85rem;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
+        /* 彈窗樣式 */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.65);
+            background: rgba(20, 26, 23, 0.65);
+            backdrop-filter: blur(4px);
             align-items: center;
             justify-content: center;
             z-index: 100;
@@ -305,50 +374,78 @@
         .modal-box {
             background: var(--card-back-bg);
             color: var(--text-color);
-            padding: 25px;
+            padding: 30px 25px;
             border-radius: 20px;
-            max-width: 400px;
+            max-width: 380px;
             width: 100%;
             text-align: center;
             border: 1px solid var(--border-color);
-            line-height: 1.6;
+            line-height: 1.65;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
 
         .modal-box h3 {
+            font-family: 'Noto Serif TC', serif;
             color: var(--accent-color);
             margin-top: 0;
+            font-weight: 500;
+            font-size: 1.15rem;
         }
 
         .close-modal {
-            margin-top: 15px;
+            margin-top: 20px;
             background: var(--accent-color);
             color: white;
             border: none;
             padding: 10px 24px;
             border-radius: 20px;
             cursor: pointer;
+            font-size: 0.85rem;
         }
 
         .music-placeholder {
             margin-top: 25px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--sub-text);
-            opacity: 0.7;
+            opacity: 0.6;
+            letter-spacing: 0.5px;
+        }
+
+        /* SVG 圖示微調 */
+        .svg-icon {
+            width: 15px;
+            height: 15px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- 模式切換 (無 Emoji，純幾何線條) -->
     <div class="mode-switcher">
-        <button class="mode-btn active" id="btnModeA" onclick="switchMode('A')">🌿 深刻認識一個人</button>
-        <button class="mode-btn" id="btnModeB" onclick="switchMode('B')">❤️ 深刻愛上一個人</button>
+        <button class="mode-btn active" id="btnModeA" onclick="switchMode('A')">
+            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/></svg>
+            深刻認識一個人
+        </button>
+        <button class="mode-btn" id="btnModeB" onclick="switchMode('B')">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            深刻愛上一個人
+        </button>
     </div>
 
+    <!-- 頂部功能列 -->
     <div class="top-bar">
-        <button class="icon-btn" onclick="openRules()">📖 儀式與規則</button>
+        <button class="icon-btn" onclick="openRules()">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+            儀式與規則
+        </button>
         <div class="random-select-wrap">
-            <span>🎲</span>
+            <svg class="svg-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/><circle cx="8.5" cy="15.5" r="1.5"/></svg>
             <select class="random-select" id="playModeSelect" onchange="changePlayMode(this.value)">
                 <option value="sequential" selected>由淺入深（順序）</option>
                 <option value="stageRandom">階段內隨機抽卡</option>
@@ -357,36 +454,44 @@
         </div>
     </div>
 
+    <!-- 分類按鈕列 -->
     <div class="categories" id="categoryContainer"></div>
 
+    <!-- 卡牌主體 -->
     <div class="card-scene" onclick="flipCard()">
         <div class="card" id="cardObj">
             <div class="card-face card-front">
-                <div class="brand">RESONANCE · 共振軌跡</div>
-                <h2 id="frontTitle">點擊翻開卡牌</h2>
-                <div class="tap-hint" id="cardCounter">第 1 張</div>
+                <div class="card-front-inner">
+                    <div class="brand">Resonance · 共振軌跡</div>
+                    <h2 id="frontTitle">輕觸翻開卡牌</h2>
+                    <div class="tap-hint" id="cardCounter">第一張</div>
+                </div>
             </div>
             <div class="card-face card-back" id="cardBackFace">
-                <div class="stage-badge" id="backStage">階段一</div>
-                <div class="question-text" id="questionText">載入中...</div>
-                <div class="extra-tools" id="extraTools" onclick="event.stopPropagation()"></div>
+                <div class="card-back-inner">
+                    <div class="stage-badge" id="backStage">階段一</div>
+                    <div class="question-text" id="questionText">載入中...</div>
+                    <div class="extra-tools" id="extraTools" onclick="event.stopPropagation()"></div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- 控制按鈕 -->
     <div class="controls">
-        <button class="pass-btn" id="passBtn" onclick="usePass()">🔄 換一題</button>
-        <button class="main-btn" onclick="nextCard()">抽下一張卡 ➔</button>
+        <button class="pass-btn" id="passBtn" onclick="usePass()">重新抽取</button>
+        <button class="main-btn" onclick="nextCard()">下一張卡片</button>
     </div>
 
-    <div class="music-placeholder">🎵 背景音樂模組已預留（待挑選音樂後啟用）</div>
+    <div class="music-placeholder">Ambient Audio Module Ready</div>
 </div>
 
+<!-- 彈窗對話框 -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
     <div class="modal-box" onclick="event.stopPropagation()">
         <h3 id="modalTitle">標題</h3>
         <div id="modalBody" style="font-size: 0.9rem; text-align: left;">內容</div>
-        <button class="close-modal" onclick="closeModal()">我明白了</button>
+        <button class="close-modal" onclick="closeModal()">確認了解</button>
     </div>
 </div>
 
@@ -394,243 +499,241 @@
     const database = {
         A: {
             stages: [
-                { id: 'all', name: '全部題目' },
+                { id: 'all', name: '全部主題' },
                 { id: '1', name: '一：微光破冰' },
                 { id: '2', name: '二：直覺盲猜' },
                 { id: '3', name: '三：價值稜鏡' },
                 { id: '4', name: '四：靈魂獨白' },
-                { id: 'action', name: '✨ 行為互動卡' }
+                { id: 'action', name: '行為互動卡' }
             ],
             cards: [
                 // 階段一：微光破冰
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果你的手機裡只能留三個 App（除了通訊軟體），你會留哪三個？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你小時候的夢想職業是什麼？現在回想起來覺得最荒謬的點在哪？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果可以選擇擁有超能力，你希望是「隱形」還是「會飛」？為什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己更偏向「早起鳥」還是「夜貓子」？深夜精神最好的時候都在幹嘛？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '分享一個你到現在還是覺得很怪，但自己卻戒不掉的小怪癖。' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你第一次打工賺的錢，買了什麼給自己或家人？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你是一個去電影院會買鹹酥雞/爆米花的人，還是覺得專心看電影就好？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '分享一個你最近覺得「相見恨晚」的好用小物或生活習慣。' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己最拿手的一道拿手菜是什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '旅行時，你是屬於那種「把行程排到滿出來的特種兵」，還是「睡到自然醒的鬆弛派」？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你最喜歡台灣的哪一個季節？為什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果要用一種動物來形容你私底下的性格，你覺得是什麼動物？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己是一個很會記路的人，還是超級大路痴？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '每次去便利商店，除了本來要買的東西外，一定會順手多買什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你小時候最喜歡看的一部卡通或動漫是什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你是一個很容易暈車、暈船的人嗎？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果可以不用上班上課、不用煩惱錢，你一整天最想廢在床上的極限是幾小時？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己比較像貓派還是狗派？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '每次洗澡時，你習慣的順序是什麼？（先洗頭、先洗臉、還是先刷牙？）' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你最不能接受的披薩口味是什麼？（例如：夏威夷披薩或珍奶披薩？）' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果必須在環遊世界跟擁有房產之間選一個，你怎麼選？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己是一個有方向感、可以不用導航就找到路的人嗎？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '分享一個你覺得很無聊，但大家好像都覺得很有趣的流行事物。' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你是一個會把手機訊息通知全部點掉的「強迫症」，還是放任它累積到 99+ 的隨性派？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果可以學會一種新樂器，你最想學會哪一種？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己的脾氣算好嗎？通常是因為什麼事情會瞬間理智斷線？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果要在夏天跟冬天二選一，你寧願熱死還是冷死？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己是一個很會殺價、講究CP值的人嗎？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '每次去逛夜市，你絕對不會錯過的小吃是什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己的字好看嗎？還是屬於醫生等級的潦草？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '分享一個你小時候做過最蠢、讓爸媽氣炸的事。' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你是一個會定期整理手機桌面、刪除照片的人嗎？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果可以穿越到未來 100 年，你最想看科技變成什麼樣子？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你覺得自己是一個擅長說謊、還是只要一說謊就會全身不對勁的人？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '分享一個你覺得自己「很會，但其實根本半桶水」的隱藏技能。' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '用一句話總結你今天的心情。' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你有什麼莫名其妙的小技能？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你最近一次衝動購物買了什麼？後悔嗎？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你手機裡最常用的 App 是哪一個？都拿它來做什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '早餐派還是宵夜派？最愛吃什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你最近迷上的東西是什麼？一首歌、一部劇、一種食物都可以。' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '如果你開一家店，會賣什麼？店名叫什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你最常被別人稱讚的地方是什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你有什麼一定要做才睡得著的小習慣？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你最喜歡一年中的哪個季節？為什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '你最近最期待的一件事是什麼？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '這個月有沒有給自己定什麼小目標？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '有沒有什麼味道是別人覺得奇怪、你卻很喜歡的？' },
-                { stage: '1', tag: '階段一 · 微光破冰', text: '有什麼東西是你以前很討厭、現在卻喜歡上的？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果你的手機裡只能留三個 App（除了通訊軟體），你會留哪三個？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你小時候的夢想職業是什麼？現在回想起來覺得最荒謬的點在哪？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果可以選擇擁有超能力，你希望是「隱形」還是「會飛」？為什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己更偏向「早起鳥」還是「夜貓子」？深夜精神最好的時候都在幹嘛？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '分享一個你到現在還是覺得很怪，但自己卻戒不掉的小怪癖。' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你第一次打工賺的錢，買了什麼給自己或家人？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你是一個去電影院會買鹹酥雞/爆米花的人，還是覺得專心看電影就好？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '分享一個你最近覺得「相見恨晚」的好用小物或生活習慣。' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '旅行時，你是屬於那種「把行程排到滿出來的特種兵」，還是「睡到自然醒的鬆弛派」？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你最喜歡台灣的哪一個季節？為什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果要用一種動物來形容你私底下的性格，你覺得是什麼動物？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己是一個很會記路的人，還是超級大路痴？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '每次去便利商店，除了本來要買的東西外，一定會順手多買什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你小時候最喜歡看的一部卡通或動漫是什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你是一個很容易暈車、暈船的人嗎？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果可以不用上班上課、不用煩惱錢，你一整天最想廢在床上的極限是幾小時？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己比較像貓派還是狗派？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '每次洗澡時，你習慣的順序是什麼？（先洗頭、先洗臉、還是先刷牙？）' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你最不能接受的披薩口味是什麼？（例如：夏威夷披薩或珍奶披薩？）' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果必須在環遊世界跟擁有房產之間選一個，你怎麼選？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己是一個有方向感、可以不用導航就找到路的人嗎？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '分享一個你覺得很無聊，但大家好像都覺得很有趣的流行事物。' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你是一個會把手機訊息通知全部點掉的「強迫症」，還是放任它累積到 99+ 的隨性派？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己的脾氣算好嗎？通常是因為什麼事情會瞬間理智斷線？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果要在夏天跟冬天二選一，你寧願熱死還是冷死？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己是一個很會殺價、講究CP值的人嗎？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '每次去逛夜市，你絕對不會錯過的小吃是什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己的字好看嗎？還是屬於醫生等級的潦草？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '分享一個你小時候做過最蠢、讓爸媽氣炸的事。' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你是一個會定期整理手機桌面、刪除照片的人嗎？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果可以穿越到未來 100 年，你最想看科技變成什麼樣子？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你覺得自己是一個擅長說謊、還是只要一說謊就會全身不對勁的人？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '分享一個你覺得自己「很會，但其實根本半桶水」的隱藏技能。' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '用一句話總結你今天的心情。' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你有什麼莫名其妙的小技能？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你最近一次衝動購物買了什麼？後悔嗎？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你手機裡最常用的 App 是哪一個？都拿它來做什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '早餐派還是宵夜派？最愛吃什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你最近迷上的東西是什麼？一首歌、一部劇、一種食物都可以。' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '如果你開一家店，會賣什麼？店名叫什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你最常被別人稱讚的地方是什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你有什麼一定要做才睡得著的小習慣？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你最喜歡一年中的哪個季節？為什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '你最近最期待的一件事是什麼？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '這個月有沒有給自己定什麼小目標？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '有沒有什麼味道是別人覺得奇怪、你卻很喜歡的？' },
+                { stage: '1', tag: 'Stage I · 微光破冰', text: '有什麼東西是你以前很討厭、現在卻喜歡上的？' },
 
-                // 階段二：直覺盲猜（已加入「大家會如何跟別人介紹我？」）
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】你覺得我生氣或不高興的時候，通常會有哪些明顯的肢體語言或語氣變化？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果我們兩個今天突然要在荒島上成立一個國家，你覺得我們各自該擔任什麼職位？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我心目中覺得最完美的週末放假行程是什麼樣子？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我跟你在路上遇到一隻兇猛野狗，你覺得我會第一秒保護你、還是轉頭就跑？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果人類可以不用睡覺，多出來的 8 小時你想拿來做什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我小時候是個乖乖牌，還是整天調皮搗蛋的小屁孩？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】在你眼裡，我做過最荒唐、最衝動的一件事是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果可以把世界上某一項討厭的家事完全自動化，你希望是哪一項？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我最害怕的動物或昆蟲是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我有機會去參加歌唱選秀節目，你覺得我會選唱什麼類型的歌？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果法律允許，你最想在身上的哪個部位刺青？圖案是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我對異性的第一眼印象，最先注意到的是眼睛、穿搭、笑容還是身高？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我們一起去遊樂園，你覺得我會去玩恐怖自由落體，還是去坐旋轉木馬？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】假設外星人明天入侵地球，要求人類選出一樣代表地球文化的食物，該選什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我點手搖飲時，通常會選幾分糖、幾分冰？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】在我心情極度不好、不想說話的時候，你覺得最好的應對方式是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果可以擁有一個「時光倒流 10 分鐘」的按鈕，你最想用在今天哪一個瞬間？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我如果中樂透頭獎，第一件想做的事情是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】在我所有的朋友眼中，你覺得他們會用哪三個詞來形容我？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果我們必須合力開一間店，你覺得店名叫什麼？賣什麼會倒閉最快？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我在工作或面對壓力時，是悶不吭聲自己吞還是大舉抱怨發洩型？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我們一起外地旅遊，你覺得我會是行前查透透的導遊，還是隨性背包客？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果可以發明一種新的社交禮儀，你希望規定大家見面時要做什麼動作？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我最不能忍受別人踩到的地雷是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我今天突然決定剃大光頭或染螢光綠頭髮，你覺得我會是什麼原因？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】假設這輩子只能吃一種口味的泡麵，你會選哪一款？理由是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我在感情裡，是一個比較容易沒安全感的人，還是很有自信的人？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我們一起玩密室逃脫，你覺得我會是大腦指揮官、還是扯後腿的豬隊友？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果人類可以透過網路下載技能，你第一個想下載什麼技能？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我生病感冒的時候，是乖乖吃藥看醫生、還是死不肯吃藥的鐵齒派？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】在我失眠的夜晚，你覺得我通常都在腦海裡想些什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果可以跟一個知名卡通角色交換生活一天，你想變成誰？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我買東西時是衝動型，還是比價三個月才下手的精打細算型？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我們發生爭執，你覺得我通常是據理力爭，還是先沉默冷戰？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果發明了一種真心話誠實藥水，你覺得誰是最應該被灌一杯的人？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我最喜歡自己身上的哪一個特質或部位？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果我今天宣佈要辭職去環遊世界，你覺得你會有什麼反應？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果可以選擇在古代、現代或未來三種時代生活，你最想在哪個時代？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我平時紓解壓力最常做的一件事是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】在我心裡，你覺得對我影響最深遠的一個人是誰？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果動物會說話，你覺得哪一種動物嘴巴最賤、最愛吐槽人類？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我對於社交聚會的耐受度有多高？通常幾小時就會想逃回家？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果可以把世界上某一項討厭的法規廢除，你最想廢除哪一條？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我在面對重大抉擇時，通常聽取別人建議，還是完全靠自己直覺？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】在我眼中，你覺得你自己的最大優點是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】猜猜看我對未來的想像裡，最不可或缺的三個元素是什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【盲猜】如果今天我們必須互換身份過一天，最讓你頭痛我的哪一個習慣？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【腦力激盪】如果這場對話可以變成一本暢銷書，你覺得書名應該取作什麼？' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【猜猜看】猜猜看對方壓力大的時候會做什麼，再請他公布答案。' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【猜猜看】猜猜看對方最佩服的人是誰，再請他公布答案和原因。' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【猜猜看】猜猜看對方最近在煩惱哪一方面的事（工作、感情、家人……），再請他說說看。' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【猜猜看】猜猜看對方最想重新體驗一次的是人生哪個階段，再請他公布答案。' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【猜猜看】猜猜看對方最不擅長的事是什麼，再請他公布答案。' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '【猜猜看】猜猜看對方在朋友圈裡通常是什麼角色（開心果、心理輔導員、行程規劃師……），再請他公布。' },
-                { stage: '2', tag: '階段二 · 直覺盲猜', text: '大家會如何跟別人介紹我？' },
+                // 階段二：直覺盲猜
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】你覺得我生氣或不高興的時候，通常會有哪些明顯的肢體語言或語氣變化？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果我們兩個今天突然要在荒島上成立一個國家，你覺得我們各自該擔任什麼職位？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我心目中覺得最完美的週末放假行程是什麼樣子？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我跟你在路上遇到一隻兇猛野狗，你覺得我會第一秒保護你、還是轉頭就跑？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果人類可以不用睡覺，多出來的 8 小時你想拿來做什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我小時候是個乖乖牌，還是整天調皮搗蛋的小屁孩？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】在你眼裡，我做過最荒唐、最衝動的一件事是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果可以把世界上某一項討厭的家事完全自動化，你希望是哪一項？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我最害怕的動物或昆蟲是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我有機會去參加歌唱選秀節目，你覺得我會選唱什麼類型的歌？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果法律允許，你最想在身上的哪個部位刺青？圖案是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我對異性的第一眼印象，最先注意到的是眼睛、穿搭、笑容還是身高？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我們一起去遊樂園，你覺得我會去玩恐怖自由落體，還是去坐旋轉木馬？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】假設外星人明天入侵地球，要求人類選出一樣代表地球文化的食物，該選什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我點手搖飲時，通常會選幾分糖、幾分冰？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】在我心情極度不好、不想說話的時候，你覺得最好的應對方式是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果可以擁有一個「時光倒流 10 分鐘」的按鈕，你最想用在今天哪一個瞬間？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我如果中樂透頭獎，第一件想做的事情是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】在我所有的朋友眼中，你覺得他們會用哪三個詞來形容我？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果我們必須合力開一間店，你覺得店名叫什麼？賣什麼會倒閉最快？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我在工作或面對壓力時，是悶不吭聲自己吞還是大舉抱怨發洩型？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我們一起外地旅遊，你覺得我會是行前查透透的導遊，還是隨性背包客？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果可以發明一種新的社交禮儀，你希望規定大家見面時要做什麼動作？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我最不能忍受別人踩到的地雷是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我今天突然決定剃大光頭或染螢光綠頭髮，你覺得我會是什麼原因？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】假設這輩子只能吃一種口味的泡麵，你會選哪一款？理由是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我在感情裡，是一個比較容易沒安全感的人，還是很有自信的人？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我們一起玩密室逃脫，你覺得我會是大腦指揮官、還是扯後腿的豬隊友？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果人類可以透過網路下載技能，你第一個想下載什麼技能？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我生病感冒的時候，是乖乖吃藥看醫生、還是死不肯吃藥的鐵齒派？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】在我失眠的夜晚，你覺得我通常都在腦海裡想些什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果可以跟一個知名卡通角色交換生活一天，你想變成誰？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我買東西時是衝動型，還是比價三個月才下手的精打細算型？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我們發生爭執，你覺得我通常是據理力爭，還是先沉默冷戰？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果發明了一種真心話誠實藥水，你覺得誰是最應該被灌一杯的人？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我最喜歡自己身上的哪一個特質或部位？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果我今天宣佈要辭職去環遊世界，你覺得你會有什麼反應？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果可以選擇在古代、現代或未來三種時代生活，你最想在哪個時代？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我平時紓解壓力最常做的一件事是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】在我心裡，你覺得對我影響最深遠的一個人是誰？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果動物會說話，你覺得哪一種動物嘴巴最賤、最愛吐槽人類？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我對於社交聚會的耐受度有多高？通常幾小時就會想逃回家？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果可以把世界上某一項討厭的法規廢除，你最想廢除哪一條？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我在面對重大抉擇時，通常聽取別人建議，還是完全靠自己直覺？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】在我眼中，你覺得你自己的最大優點是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】猜猜看我對未來的想像裡，最不可或缺的三個元素是什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【盲猜】如果今天我們必須互換身份過一天，最讓你頭痛我的哪一個習慣？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【腦力激盪】如果這場對話可以變成一本暢銷書，你覺得書名應該取作什麼？' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【猜猜看】猜猜看對方壓力大的時候會做什麼，再請他公布答案。' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【猜猜看】猜猜看對方最佩服的人是誰，再請他公布答案和原因。' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【猜猜看】猜猜看對方最近在煩惱哪一方面的事（工作、感情、家人……），再請他說說看。' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【猜猜看】猜猜看對方最想重新體驗一次的是人生哪個階段，再請他公布答案。' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【猜猜看】猜猜看對方最不擅長的事是什麼，再請他公布答案。' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '【猜猜看】猜猜看對方在朋友圈裡通常是什麼角色（開心果、心理輔導員、行程規劃師……），再請他公布。' },
+                { stage: '2', tag: 'Stage II · 直覺盲猜', text: '大家會如何跟別人介紹我？' },
 
                 // 階段三：價值觀稜鏡
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '人生至今，哪一個決定是你覺得最勇敢、最不後悔的？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '在你的價值觀裡，「賺大錢過奢華生活」跟「錢夠用但擁有大量自由時間」，哪個更重要？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果你發現最好的朋友背着你做出對不起你的事，你會直接攤牌，還是默默疏遠？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得「誠實而傷人」跟「善意的謊言」，哪一個比較能被你接受？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '當你面對重大挫折或壓力時，你習慣自己默默消化，還是會立刻找人傾訴？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '在你眼裡，一個真正成熟的人具備最重要的特質是什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果可以重新選擇一次大學科系或第一份工作，你會做出不同的決定嗎？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得「努力」跟「天賦/運氣」，哪一個對成功的人生更具決定性？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '當你看到路上有陌生人需要幫忙，你通常會毫不猶豫伸出援手，還是先觀察？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你對於「借錢給朋友」這件事的底線在哪裡？曾因此受過傷嗎？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得這世界基本上是公平的，還是充滿了不公與隨機性？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '談談你人生中經歷過最大的一次「價值觀崩塌或重建」是什麼時候？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你是一個很在乎別人眼光、容易在意他人評價的人嗎？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果長輩給了一個明顯不合理、但大家都默默吞下去的指令，你會反抗還是配合？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你認為真正的「朋友」一生只要一兩個知己就夠了，還是朋友越多越好？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '在面對衝突時，你是「一定要爭到贏」還是「以和為貴、先退一步」的人？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得現代社會裡，人們最大的焦慮來源是什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果有一天你中了億萬大獎，你會選擇立刻辭職告訴所有人，還是繼續低調？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你對於「失敗」的定義是什麼？你曾經失敗最慘的一次學到什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得人與人之間的信任，是一旦打破就回不去，還是可以修復？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '在工作上，你追求「做到最好拿第一名」，還是「及格就好保留精力過生活」？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得自己從原生家庭或父母身上，學到最好的一個觀念是什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果生命只剩下一年，你最想把時間花在追逐夢想，還是跟最愛的人在一起？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你對於「承諾」的看法是什麼？如果做不到當初答應的事，心裡會怎麼調適？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得人長大之後，要交到真心朋友是不是變得比小時候困難很多？為什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '面對不喜歡的人事物，你會面帶微笑敷衍過去，還是直接擺在臉上？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你認為「嫉妒心」是一種人之常情，還是一種會腐蝕人心的毒藥？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果必須在「懂你但沒錢」跟「物質照顧但不懂你心靈」之間選伴侶，你會怎麼想？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得自己是一個懂得「愛自己」的人嗎？具體會怎麼做？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '談談你曾經歷過最深刻的一次離別，它改變了你什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你對於「競爭」這件事的態度是樂在其中，還是非常厭惡內卷？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果可以對全人類廣播一句話，你會說什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得自己內心深處最常出現的恐懼或不安是什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '在做重大決定時，你通常依賴「理性數據分析」還是「第六感直覺」？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你認為社會上的「成功」標準，是不是綁架了很多人的人生？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果必須放棄你目前擁有的某個優點換取另一項能力，你會怎麼選？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你對於「獨處」跟「社交」的需求比例大約是多少？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '談談你最近一次真心覺得感動、甚至起雞皮疙瘩的時刻是什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得人在逆境中展現出來的樣子，比順境中更能看出他的本性嗎？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果有人公開誤解或批評你，你會據理力爭，還是覺得懂的人就懂？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你對於「變老」這件事抱持著期待、恐懼還是順其自然？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得自己是一個懂得拒絕別人、不會委屈自己的人嗎？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '在團隊中，你是默默做事的黃牛，還是站在台前領導大家的指揮官？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得「原諒別人」是為了對方好，還是為了放過自己？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果有一天你發現深信不疑的一個價值觀是錯的，你會有什麼反應？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你對於「追求完美」這件事有執念嗎？它曾帶給你成就感還是痛苦？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '談談你心目中理想的生活型態：每天早上睜開眼，你在哪裡？在做什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '你覺得人有沒有可能完全做到「不帶偏見地看待每一個人」？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果可以向宇宙許一個願望讓世界少掉一種壞事，你想去掉什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '回顧過去這幾年，你覺得自己最大的轉變或成長是什麼？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果朋友要把你介紹給別人，你希望他怎麼說？最怕他怎麼說？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '如果一年後回頭看今天，你希望自己已經做了什麼決定？' },
-                { stage: '3', tag: '階段三 · 價值觀稜鏡', text: '有什麼是你一直想學、但還沒開始的？是什麼擋住了你？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '人生至今，哪一個決定是你覺得最勇敢、最不後悔的？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '在你的價值觀裡，「賺大錢過奢華生活」跟「錢夠用但擁有大量自由時間」，哪個更重要？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果你發現最好的朋友背着你做出對不起你的事，你會直接攤牌，還是默默疏遠？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得「誠實而傷人」跟「善意的謊言」，哪一個比較能被你接受？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '當你面對重大挫折或壓力時，你習慣自己默默消化，還是會立刻找人傾訴？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '在你眼裡，一個真正成熟的人具備最重要的特質是什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果可以重新選擇一次大學科系或第一份工作，你會做出不同的決定嗎？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得「努力」跟「天賦/運氣」，哪一個對成功的人生更具決定性？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '當你看到路上有陌生人需要幫忙，你通常會毫不猶豫伸出援手，還是先觀察？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你對於「借錢給朋友」這件事的底線在哪裡？曾因此受過傷嗎？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得這世界基本上是公平的，還是充滿了不公與隨機性？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '談談你人生中經歷過最大的一次「價值觀崩塌或重建」是什麼時候？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你是一個很在乎別人眼光、容易在意他人評價的人嗎？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果長輩給了一個明顯不合理、但大家都默默吞下去的指令，你會反抗還是配合？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你認為真正的「朋友」一生只要一兩個知己就夠了，還是朋友越多越好？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '在面對衝突時，你是「一定要爭到贏」還是「以和為貴、先退一步」的人？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得現代社會裡，人們最大的焦慮來源是什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果有一天你中了億萬大獎，你會選擇立刻辭職告訴所有人，還是繼續低調？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你對於「失敗」的定義是什麼？你曾經失敗最慘的一次學到什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得人與人之間的信任，是一旦打破就回不去，還是可以修復？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '在工作上，你追求「做到最好拿第一名」，還是「及格就好保留精力過生活」？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得自己從原生家庭或父母身上，學到最好的一個觀念是什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果生命只剩下一年，你最想把時間花在追逐夢想，還是跟最愛的人在一起？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你對於「承諾」的看法是什麼？如果做不到當初答應的事，心裡會怎麼調適？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得人長大之後，要交到真心朋友是不是變得比小時候困難很多？為什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '面對不喜歡的人事物，你會面帶微笑敷衍過去，還是直接擺在臉上？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你認為「嫉妒心」是一種人之常情，還是一種會腐蝕人心的毒藥？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果必須在「懂你但沒錢」跟「物質照顧但不懂你心靈」之間選伴侶，你會怎麼想？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得自己是一個懂得「愛自己」的人嗎？具體會怎麼做？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '談談你曾經歷過最深刻的一次離別，它改變了你什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你對於「競爭」這件事的態度是樂在其中，還是非常厭惡內卷？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果可以對全人類廣播一句話，你會說什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得自己內心深處最常出現的恐懼或不安是什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '在做重大決定時，你通常依賴「理性數據分析」還是「第六感直覺」？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你認為社會上的「成功」標準，是不是綁架了很多人的人生？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果必須放棄你目前擁有的某個優點換取另一項能力，你會怎麼選？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你對於「獨處」跟「社交」的需求比例大約是多少？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '談談你最近一次真心覺得感動、甚至起雞皮疙瘩的時刻是什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得人在逆境中展現出來的樣子，比順境中更能看出他的本性嗎？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果有人公開誤解或批評你，你會據理力爭，還是覺得懂的人就懂？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你對於「變老」這件事抱持著期待、恐懼還是順其自然？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得自己是一個懂得拒絕別人、不會委屈自己的人嗎？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '在團隊中，你是默默做事的黃牛，還是站在台前領導大家的指揮官？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得「原諒別人」是為了對方好，還是為了放過自己？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果有一天你發現深信不疑的一個價值觀是錯的，你會有什麼反應？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你對於「追求完美」這件事有執念嗎？它曾帶給你成就感還是痛苦？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '談談你心目中理想的生活型態：每天早上睜開眼，你在哪裡？在做什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '你覺得人有沒有可能完全做到「不帶偏見地看待每一個人」？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果可以向宇宙許一個願望讓世界少掉一種壞事，你想去掉什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '回顧過去這幾年，你覺得自己最大的轉變或成長是什麼？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果朋友要把你介紹給別人，你希望他怎麼說？最怕他怎麼說？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '如果一年後回頭看今天，你希望自己已經做了什麼決定？' },
+                { stage: '3', tag: 'Stage III · 價值觀稜鏡', text: '有什麼是你一直想學、但還沒開始的？是什麼擋住了你？' },
 
                 // 階段四：靈魂獨白
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在派對結束、一個人回到安靜房間的那個瞬間，你心裡最常湧現的是什麼感覺？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你有沒有哪一個藏在心裡很久、從來不敢跟別人說的秘密或荒謬小遺憾？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己身上哪一個缺點或陰暗面，是你花了好久才終於學會接受的？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '當你感到極度無助、彷彿全世界都沒有人懂你時，你通常是怎麼撐過去的？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果可以回到過去，給十年前迷惘或哭泣的自己一個擁抱，你想對他說什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己在別人面前展現的堅強面具，其實是為了掩飾什麼樣的恐懼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '有沒有哪一個人，已經離開很久了，但你偶爾在半夜還是會想起他？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '當你看到身邊的人過得比你成功時，你心裡曾湧現過嫉妒或焦慮嗎？怎麼面對？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己是一個容易感到孤獨的人嗎？在什麼樣的時刻孤獨感最強烈？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果生命可以重來，有沒有哪一個當下，是你如果能回到過去一定會做出不同選擇的？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你最害怕在別人面前暴露出自己的哪一種情緒？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在你心裡，有沒有哪一個人是你一直想對他好好說聲謝謝或對不起，卻再也沒機會了？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己被愛的時候是什麼樣子的？是不是必須表現得很乖、很有用才配得到愛？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '當你照鏡子時，你最常對自己的外表或內心挑剔什麼？又最喜歡哪裡？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你有沒有過這樣的時刻：身邊明明圍繞很多人，卻覺得沒有任何人真正懂你？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己有時候會不會太過保護自己、把心防築得太高，把想靠近的人擋在外面？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '談談你曾經受過最深的一次情感創傷，它如何改變了你日後與人相處的方式？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果有一天你老了、走不動了，回顧這一生，你最希望別人記得你是個怎樣的人？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你有沒有在哪一個瞬間，突然意識到自己「真的長大成人了，再也沒有人可以依靠」？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己靈魂深處最柔軟、最碰不得的那一塊是什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果今天你可以毫無顧忌地向我提出一個要求，你希望是什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在深夜失眠時，你腦海裡盤旋最久的一個問題是什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己有沒有遺傳到父母某一個讓你覺得無奈、卻又甩不掉的特質？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '當別人無意間稱讚你時，你第一反應是開心接受，還是覺得你只是在客套？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你有沒有過「雖然當時快撐不下去了，但很感謝當初咬牙堅持的自己」的時刻？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己是一個容易原諒自己的人嗎？還是會對過去犯的蠢事耿耿於懷？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在人際關係中，你最怕遇到的狀況是什麼？（被背叛、被冷落、還是被拋棄？）' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果可以向我坦白一件你平常絕對不會對別人說的真心話，會是什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己目前的人生進度，離你心目中的理想狀態還有多遠？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '當你感到悲傷時，你希望身邊的人怎麼陪你？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你有沒有曾經為了討好別人、融入群體，而把真實的自己藏起來？當時痛苦嗎？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '想像十多年後的自己如果站在你面前，他會拍拍你的肩膀對你說一句什麼話？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己內心深處住著一個怎樣的小孩？他現在過得快樂嗎？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在你心裡，「被全然地接納」是什麼樣子的感覺？你曾體驗過嗎？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果今天必須寫一封遺書或給世界的告別信，你最捨不得的人是誰？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己是一個很懂得享受孤獨的人，還是其實很怕寂寞？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '有沒有哪一首歌或哪一本書，曾在你人生最黑暗的時候接住了你？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你對於「死亡」這件事最恐懼的是什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '當你看到別人受苦或遭遇不幸時，你的同理心通常會到什麼程度？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己有沒有哪一個夢想，因為害怕失敗或眼光而一直埋藏在心底？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在經歷了這麼多風雨之後，你覺得現在的自己比以前更喜歡自己了嗎？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果你可以向宇宙提出一個關於未來的保證，你希望保證什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你有無過突然覺得人生好虛無、但又在下一秒被微小事物感動的奇妙體驗？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得在與人交往的過程中，最難能可貴的品質是什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '當你回想起曾經受過的傷，你現在是帶著恨意、釋懷、還是感謝？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你覺得自己有沒有哪一部分，是永遠都不會被任何人改變的？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果現在可以不用顧慮任何現實壓力，你靈魂最想去的地方是哪裡？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '在這段對話進行到這裡時，你對眼前這個人的感覺有沒有產生什麼新的變化？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '如果要用一句話來總結你此刻內心最真實的狀態，那會是什麼？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '【模式 A 終極卡】請看著對方的眼睛，真誠地告訴對方一個「在對話中最觸動你的一句話」。' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '【猜猜看】猜猜看對方最珍惜的是什麼，再請他說說你猜得對不對。' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '【猜猜看】猜猜看對方覺得自己最大的優點是什麼，再請他公布答案。' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你最不想變成什麼樣的人？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你現在的生活，是十年前的你想像的樣子嗎？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '你最怕被別人發現自己的哪一面？' },
-                { stage: '4', tag: '階段四 · 靈魂獨白', text: '有什麼事是你到現在還在學著接受的？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在派對結束、一個人回到安靜房間的那個瞬間，你心裡最常湧現的是什麼感覺？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有沒有哪一個藏在心裡很久、從來不敢跟別人說的秘密或荒謬小遺憾？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己身上哪一個缺點或陰暗面，是你花了好久才終於學會接受的？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當你感到極度無助、彷彿全世界都沒有人懂你時，你通常是怎麼撐過去的？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果可以回到過去，給十年前迷惘或哭泣的自己一個擁抱，你想對他說什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己在別人面前展現的堅強面具，其實是為了掩飾什麼樣的恐懼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '有沒有哪一個人，已經離開很久了，但你偶爾在半夜還是會想起他？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當你看到身邊的人過得比你成功時，你心裡曾湧現過嫉妒或焦慮嗎？怎麼面對？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己是一個容易感到孤獨的人嗎？在什麼樣的時刻孤獨感最強烈？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果生命可以重來，有沒有哪一個當下，是你如果能回到過去一定會做出不同選擇的？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你最害怕在別人面前暴露出自己的哪一種情緒？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在你心裡，有沒有哪一個人是你一直想對他好好說聲謝謝或對不起，卻再也沒機會了？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己被愛的時候是什麼樣子的？是不是必須表現得很乖、很有用才配得到愛？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當你照鏡子時，你最常對自己的外表或內心挑剔什麼？又最喜歡哪裡？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有沒有過這樣的時刻：身邊明明圍繞很多人，卻覺得沒有任何人真正懂你？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己有時候會不會太過保護自己、把心防築得太高，把想靠近的人擋在外面？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '談談你曾經受過最深的一次情感創傷，它如何改變了你日後與人相處的方式？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果有一天你老了、走不動了，回顧這一生，你最希望別人記得你是個怎樣的人？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有沒有在哪一個瞬間，突然意識到自己「真的長大成人了，再也沒有人可以依靠」？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己靈魂深處最柔軟、最碰不得的那一塊是什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果今天你可以毫無顧忌地向我提出一個要求，你希望是什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在深夜失眠時，你腦海裡盤旋最久的一個問題是什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己有沒有遺傳到父母某一個讓你覺得無奈、卻又甩不掉的特質？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當別人無意間稱讚你時，你第一反應是開心接受，還是覺得你只是在客套？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有沒有過「雖然當時快撐不下去了，但很感謝當初咬牙堅持的自己」的時刻？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己是一個容易原諒自己的人嗎？還是會對過去犯的蠢事耿耿於懷？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在人際關係中，你最怕遇到的狀況是什麼？（被背叛、被冷落、還是被拋棄？）' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果可以向我坦白一件你平常絕對不會對別人說的真心話，會是什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己目前的人生進度，離你心目中的理想狀態還有多遠？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當你感到悲傷時，你希望身邊的人怎麼陪你？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有沒有曾經為了討好別人、融入群體，而把真實的自己藏起來？當時痛苦嗎？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '想像十多年後的自己如果站在你面前，他會拍拍你的肩膀對你說一句什麼話？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己內心深處住著一個怎樣的小孩？他現在過得快樂嗎？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在你心裡，「被全然地接納」是什麼樣子的感覺？你曾體驗過嗎？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果今天必須寫一封遺書或給世界的告別信，你最捨不得的人是誰？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己是一個很懂得享受孤獨的人，還是其實很怕寂寞？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '有沒有哪一首歌或哪一本書，曾在你人生最黑暗的時候接住了你？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你對於「死亡」這件事最恐懼的是什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當你看到別人受苦或遭遇不幸時，你的同理心通常會到什麼程度？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己有沒有哪一個夢想，因為害怕失敗或眼光而一直埋藏在心底？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在經歷了這麼多風雨之後，你覺得現在的自己比以前更喜歡自己了嗎？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果你可以向宇宙提出一個關於未來的保證，你希望保證什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你有沒有過突然覺得人生好虛無、但又在下一秒被微小事物感動的奇妙體驗？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得在與人交往的過程中，最難能可貴的品質是什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '當你回想起曾經受過的傷，你現在是帶著恨意、釋懷、還是感謝？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你覺得自己有沒有哪一部分，是永遠都不會被任何人改變的？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果現在可以不用顧慮任何現實壓力，你靈魂最想去的地方是哪裡？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '在這段對話進行到這裡時，你對眼前這個人的感覺有沒有產生什麼新的變化？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '如果要用一句話來總結你此刻內心最真實的狀態，那會是什麼？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '請看著對方的眼睛，真誠地告訴對方一個在對話中最觸動你的一句話。' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '【猜猜看】猜猜看對方最珍惜的是什麼，再請他說說你猜得對不對。' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '【猜猜看】猜猜看對方覺得自己最大的優點是什麼，再請他公布答案。' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你最不想變成什麼樣的人？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你現在的生活，是十年前的你想像的樣子嗎？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '你最怕被別人發現自己的哪一面？' },
+                { stage: '4', tag: 'Stage IV · 靈魂獨白', text: '有什麼事是你到現在還在學著接受的？' },
 
-                // 模式 A 專屬：行為互動卡
-                { stage: 'action', tag: '✨ 行為互動卡 · 隨機破冰', isAction: true, text: '【相簿時光機】雙方各自打開手機相簿，滑到隨機一張照片（或三年前的今天），秀給對方看並分享背後故事。' },
-                { stage: 'action', tag: '✨ 行為互動卡 · 隨機破冰', isAction: true, text: '【默契倒數三秒】兩人面對面，一人出題（例如：「數到三一起說出最想去的國家」），默數 1、2、3 同時講出來看有沒有心電感應！' },
-                { stage: 'action', tag: '✨ 行為互動卡 · 隨機破冰', isAction: true, text: '【一分鐘快問快答】一人當出題官，在 60 秒內向對方丟出至少 5 個二選一快問快答，對方必須憑直覺秒答！' },
-                { stage: 'action', tag: '✨ 行為互動卡 · 隨機破冰', isAction: true, text: '【三詞印象】輪流在心裡想「三個詞」來形容此時此刻對方給你的感覺。倒數三秒鐘同時講出來，看看彼此有沒有猜中！' },
+                // 行為互動卡
+                { stage: 'action', tag: 'Action · 隨機破冰', isAction: true, text: '【相簿時光機】雙方各自打開手機相簿，滑到隨機一張照片（或三年前的今天），秀給對方看並分享背後故事。' },
+                { stage: 'action', tag: 'Action · 隨機破冰', isAction: true, text: '【默契倒數三秒】兩人面對面，一人出題（例如：「數到三一起說出最想去的國家」），默數 1、2、3 同時講出來看有沒有心電感應！' },
+                { stage: 'action', tag: 'Action · 隨機破冰', isAction: true, text: '【一分鐘快問快答】一人當出題官，在 60 秒內向對方丟出至少 5 個二選一快問快答，對方必須憑直覺秒答！' },
+                { stage: 'action', tag: 'Action · 隨機破冰', isAction: true, text: '【三詞印象】輪流在心裡想「三個詞」來形容此時此刻對方給你的感覺。倒數三秒鐘同時講出來，看看彼此有沒有猜中！' },
                 { 
                     stage: 'action', 
-                    tag: '✨ 行為互動卡 · 心理學實證', 
+                    tag: 'Action · 心理學實證', 
                     isAction: true,
                     text: '【正向放大鏡】輪流分享一件「最近一週讓你感到開心或有成就感的小事」。聽的人在 60 秒內必須熱情追問細節，不准滑手機或敷衍！',
                     science: '【心理學依據】源自正向心理學家 Shelly Gable 的積極建構式回應（ACR）研究：熱情追問好消息的細節，能顯著提升雙方的信任感與親密連結。'
@@ -639,126 +742,126 @@
         },
         B: {
             stages: [
-                { id: 'all', name: '全部題目' },
+                { id: 'all', name: '全部主題' },
                 { id: '1', name: '一：愛情地圖' },
                 { id: '2', name: '二：依附紋理' },
                 { id: '3', name: '三：靈魂暗室' },
                 { id: '4', name: '四：未來誓言' },
-                { id: 'action', name: '🔬 心理學指引卡' }
+                { id: 'action', name: '心理學指引卡' }
             ],
             cards: [
                 // 階段一：愛情地圖重繪
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '如果今天我們是第一次在街角偶遇，以你現在的眼光，第一眼會被我身上的哪個細節吸引？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '最近這一個月裡，我做過哪一件微不足道的小事，其實讓你心裡偷偷暖了一下？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '在你眼裡，當我累到極點或壓力大到快崩潰時，會有什麼連我自己都沒發現的小動作？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '如果要用一種天氣、季節或氣味來形容我們現在這段關係，你覺得是什麼？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '我們在一起之後，你覺得我身上改變最多、或讓你最感到驚喜的特質是什麼？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '哪一首歌、電影或食物，會讓你一看到或聽到就立刻聯想到我？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '你覺得我在外面的樣子，跟在你面前的樣子，最大的反差是什麼？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '最近一次你偷偷看著我、在心裡覺得「有你在真好」是什麼時候？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '如果今天我們可以完全不顧預算與時間，立刻瞬移去任何地方待 24 小時，你想帶我去哪裡？' },
-                { stage: '1', tag: '階段一 · 愛情地圖重繪', text: '在你心目中，我做過最可愛、或最笨拙的一件事是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '如果今天我們是第一次在街角偶遇，以你現在的眼光，第一眼會被我身上的哪個細節吸引？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '最近這一個月裡，我做過哪一件微不足道的小事，其實讓你心裡偷偷暖了一下？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '在你眼裡，當我累到極點或壓力大到快崩潰時，會有什麼連我自己都沒發現的小動作？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '如果要用一種天氣、季節或氣味來形容我們現在這段關係，你覺得是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '我們在一起之後，你覺得我身上改變最多、或讓你最感到驚喜的特質是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '哪一首歌、電影或食物，會讓你一看到或聽到就立刻聯想到我？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '你覺得我在外面的樣子，跟在你面前的樣子，最大的反差是什麼？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '最近一次你偷偷看著我、在心裡覺得「有你在真好」是什麼時候？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '如果今天我們可以完全不顧預算與時間，立刻瞬移去任何地方待 24 小時，你想帶我去哪裡？' },
+                { stage: '1', tag: 'Stage I · 愛情地圖', text: '在你心目中，我做過最可愛、或最笨拙的一件事是什麼？' },
 
                 // 階段二：依附與記憶紋理
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '在你的成長過程中，哪一個人或哪一件事，最深刻地塑造了你現在看待愛情的方式？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '在五種愛的語言中，你最渴望哪兩種？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '當你感到極度沮喪或自我懷疑時，你最希望我用什麼方式陪在你身邊？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '你覺得自己是一個容易把委屈吞下去的人嗎？是什麼原因讓你養成這個習慣？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '你最害怕在伴侶面前暴露自己的哪一種情緒？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '在親密關係裡，「被徹底理解」跟「被無條件支持」，哪一個對你更重要？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '你覺得你在親密關係裡，最常出現的防禦機制是什麼？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '你覺得自己是屬於焦慮型、逃避型還是安全型依附？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '你曾經在過去的感情裡為了討好對方而壓抑過自己嗎？在我面前可以做自己嗎？' },
-                { stage: '2', tag: '階段二 · 依附與記憶紋理', text: '當我們發生冷戰或僵持不下時，你心裡其實在等我做什麼動作？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '在你的成長過程中，哪一個人或哪一件事，最深刻地塑造了你現在看待愛情的方式？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '在五種愛的語言中，你最渴望哪兩種？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '當你感到極度沮喪或自我懷疑時，你最希望我用什麼方式陪在你身邊？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得自己是一個容易把委屈吞下去的人嗎？是什麼原因讓你養成這個習慣？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你最害怕在伴侶面前暴露自己的哪一種情緒？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '在親密關係裡，「被徹底理解」跟「被無條件支持」，哪一個對你更重要？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得你在親密關係裡，最常出現的防禦機制是什麼？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你覺得自己是屬於焦慮型、逃避型還是安全型依附？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '你曾經在過去的感情裡為了討好對方而壓抑過自己嗎？在我面前可以做自己嗎？' },
+                { stage: '2', tag: 'Stage II · 依附紋理', text: '當我們發生冷戰或僵持不下時，你心裡其實在等我做什麼動作？' },
 
                 // 階段三：靈魂暗室
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '在我們這段關係裡，有沒有哪一次你其實受了傷或覺得委屈，但為了不想吵架而選擇吞下去？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '你曾經在心裡偷偷害怕過我們有一天會走散或不再愛你嗎？那是什麼時候？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '在你面對我的時候，有沒有哪一個瞬間你其實感到孤單或覺得我沒有真正懂你？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '你最害怕我看到你哪一個不完美、甚至有點不堪或脆弱的一面？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '如果這段關係裡有哪一個部分讓你感到疲憊或有壓力，你願意現在坦誠告訴我嗎？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '在我們相處的過程中，我無意間說過或做過哪一件事，其實曾經深深刺痛過你？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '當我們發生爭執氣氛降到冰點時，你內心最真實的恐懼是什麼？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '在你最脆弱、最狼狽、人生最低潮的時候，你敢完全不加掩飾地讓我看到嗎？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '有沒有哪一句對不起或謝謝你，是你一直欠我、或覺得我欠你的？' },
-                { stage: '3', tag: '階段三 · 靈魂暗室（請鎖定眼神）', text: '【階段三結束儀式】請不要說話，給彼此一個長達 15 秒的深情擁抱。' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在我們這段關係裡，有沒有哪一次你其實受了傷或覺得委屈，但為了不想吵架而選擇吞下去？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你曾經在心裡偷偷害怕過我們有一天會走散或不再愛你嗎？那是什麼時候？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在你面對我的時候，有沒有哪一個瞬間你其實感到孤單或覺得我沒有真正懂你？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '你最害怕我看到你哪一個不完美、甚至有點不堪或脆弱的一面？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '如果這段關係裡有哪一個部分讓你感到疲憊或有壓力，你願意現在坦誠告訴我嗎？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在我們相處的過程中，我無意間說過或做過哪一件事，其實曾經深深刺痛過你？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '當我們發生爭執氣氛降到冰點時，你內心最真實的恐懼是什麼？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '在你最脆弱、最狼狽、人生最低潮的時候，你敢完全不加掩飾地讓我看到嗎？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '有沒有哪一句對不起或謝謝你，是你一直欠我、或覺得我欠你的？' },
+                { stage: '3', tag: 'Stage III · 靈魂暗室', text: '【階段三結束儀式】請不要說話，給彼此一個長達 15 秒的深情擁抱。' },
 
                 // 階段四：未來誓言
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '在聽完前面這麼多深層問題後，你對我產生了什麼新的認識或重新心動的感覺？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '想像一下十年後的我們在一個普通的週末早晨醒來，你希望那畫面是什麼樣子的？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '在你心中，深刻地愛上一個人究竟是什麼意思？你覺得我們正在這條路上嗎？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '為了讓我們的關係在未來幾年變得更深厚，你願意從明天開始做出哪一個小改變？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '當我們都變成白髮蒼蒼的老人時，你最希望我還保留著現在的哪一個習慣或脾氣？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '在這個充滿變數的世界裡，是什麼讓你依然堅定地選擇站在我身邊？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '如果可以給未來的我們寫一封時空膠囊信，信的第一句話你會寫什麼？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '在我們共度的所有時光裡，如果只能保留一段記憶帶進下輩子，你會選哪一段？' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '看著我的眼睛，真誠地告訴我三個你現在依然深愛著我的理由。' },
-                { stage: '4', tag: '階段四 · 深刻共鳴與誓言', text: '【最終卡】請各自寫下「接下來這一年，我最想為你做的一件事」，交換並大聲念出來。' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '在聽完前面這麼多深層問題後，你對我產生了什麼新的認識或重新心動的感覺？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '想像一下十年後的我們在一個普通的週末早晨醒來，你希望那畫面是什麼樣子的？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '在你心中，深刻地愛上一個人究竟是什麼意思？你覺得我們正在這條路上嗎？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '為了讓我們的關係在未來幾年變得更深厚，你願意從明天開始做出哪一個小改變？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '當我們都變成白髮蒼蒼的老人時，你最希望我還保留著現在的哪一個習慣或脾氣？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '在這個充滿變數的世界裡，是什麼讓你依然堅定地選擇站在我身邊？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '如果可以給未來的我們寫一封時空膠囊信，信的第一句話你會寫什麼？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '在我們共度的所有時光裡，如果只能保留一段記憶帶進下輩子，你會選哪一段？' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '看著我的眼睛，真誠地告訴我三個你現在依然深愛著我的理由。' },
+                { stage: '4', tag: 'Stage IV · 未來誓言', text: '【最終卡】請各自寫下「接下來這一年，我最想為你做的一件事」，交換並大聲念出來。' },
 
-                // 模式 B 專屬：8 張具備科學依據與計時器的互動指引卡
+                // 科學指引卡
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 240,
                     text: '【四分鐘靈魂凝視】放下手機，面對面坐好。按下計時器開始 4 分鐘，不准說話、不准笑場，專注看著對方的眼睛。',
-                    science: '【神經科學與心理學依據】源自社會心理學家 Arthur Aron 的親密實驗。持續 4 分鐘不間斷的眼神接觸，會暫時關閉大腦防禦機制，啟動鏡像神經元並促進「催產素（愛情荷爾蒙）」分泌，重燃強烈心動感。'
+                    science: '【神經科學依據】源自社會心理學家 Arthur Aron 的親密實驗。持續 4 分鐘不間斷的眼神接觸，會暫時關閉大腦防禦機制，啟動鏡像神經元並促進催產素分泌。'
                 },
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 20,
-                    text: '【20 秒催產素深層擁抱】站起來給彼此一個紮實、全心全意的擁抱，維持 20 秒以上，在心裡默數呼吸，不要急著放開。',
-                    science: '【生理學依據】北卡羅來納大學 Karen Grewen 博士研究證實，擁抱必須持續超過 20 秒，腦下垂體才會大量釋放催產素並降低壓力荷爾蒙「皮質醇」，向大腦傳遞最深層的安全感訊號。'
+                    text: '【20 秒催產素擁抱】站起來給彼此一個紮實、全心全意的擁抱，維持 20 秒以上，在心裡默數呼吸，不要急著放開。',
+                    science: '【生理學依據】北卡羅來納大學研究證實，擁抱持續超過 20 秒會大量釋放催產素並降低皮質醇，傳遞最深層安全感。'
                 },
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 90,
                     text: '【心跳與呼吸同步共振】面對面坐好，將手放在對方胸口感受心跳。閉上眼睛 90 秒，試著一起吸氣、一起吐氣。',
-                    science: '【生理同步性研究】源自加州大學戴維斯分校 Emilio Ferrer 博士的研究。深愛彼此的伴侶在靠近時會出現心律同步現象，能人為誘導大腦進入生理共振，大幅提升同理心。'
+                    science: '【生理同步性研究】源自加州大學戴維斯分校研究。深愛彼此的伴侶在靠近時會出現心律同步，能大幅提升同理心。'
                 },
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 120,
-                    text: '【無辯解鏡像傾聽】一人花 2 分鐘分享壓力或委屈，聽者不給建議、不辯解。時間到後，聽者須複述：「我聽到你說…這讓你覺得…」。',
-                    science: '【意象關係治療】源自 Harville Hendrix 博士的技術。當情緒被精準複述並接納時，大腦杏仁核活躍度會下降 50%，產生極深層的療癒感。'
+                    text: '【無辯解鏡像傾聽】一人花 2 分鐘分享壓力或委屈，聽者不給建議、不辯解。時間到後，聽者須複述對方的核心感受。',
+                    science: '【意象關係治療】情緒被精準複述並接納時，大腦杏仁核活躍度會下降 50%，產生極深層的療癒感。'
                 },
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 90,
-                    text: '【雙手掌心溫度與感謝】掌心相對輕貼。看著對方眼睛，輪流說出 3 件對方曾為你做過但你可能忘了道謝的小事。',
-                    science: '【感謝理論】源自北卡羅來納大學 Sara Algoe 博士的實證。表達具體感謝能透過觸覺與多巴胺重塑大腦獎賞迴路，是預測關係滿意度的最強指標。'
+                    text: '【掌心溫度與感謝】掌心相對輕貼。看著對方眼睛，輪流說出 3 件對方曾為你做過但你可能忘了道謝的小事。',
+                    science: '【感謝理論】表達具體感謝能透過觸覺與多巴胺重塑大腦獎賞迴路，是預測關係滿意度的最強指標。'
                 },
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 6,
                     text: '【六秒鐘深情之吻】放下所有卡片與手機，給對方一個不帶急躁、專注且溫柔的親吻，至少持續 6 秒鐘。',
-                    science: '【Gottman 黃金法則】婚姻大師 John Gottman 發現，持續 6 秒以上的親吻能讓大腦意識到這是一個有意識的親密時刻，觸發多巴胺與催產素雙重分泌。'
+                    science: '【Gottman 黃金法則】持續 6 秒以上的親吻能讓大腦意識到這是一個有意識的親密時刻，觸發多巴胺與催產素雙重分泌。'
                 },
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 60,
                     text: '【脆弱請求與安全感錨點】輪流造句：「當我感到不安或害怕時，其實我最需要你對我做的一件小事是…」',
-                    science: '【EFT 情緒取向治療】Sue Johnson 博士指出，將爭吵時的指責翻譯成脆弱的請求，能消除防衛心並建立高精準度的安全感說明書。'
+                    science: '【EFT 情緒取向治療】將爭吵時的指責翻譯成脆弱請求，能消除防衛心並建立高精準度的安全感說明書。'
                 },
                 { 
                     stage: 'action', 
-                    tag: '🔬 心理學實證指引卡', 
+                    tag: 'Science · 心理學指引', 
                     isAction: true,
                     timer: 60,
                     text: '【共同未來視覺化冥想】靠在一起閉上眼睛 60 秒，在腦海裡描繪五年後某個週末我們笑著的畫面，睜開眼後互相分享細節。',
-                    science: '【自我擴張理論】想像未來的激活腦區與真實經歷相同，能將伴侶納入自我概念中，大幅提升承諾感與抗風險能力。'
+                    science: '【自我擴張理論】想像未來的激活腦區與真實經歷相同，能將伴侶納入自我概念中，大幅提升承諾感。'
                 }
             ]
         }
@@ -789,9 +892,9 @@
 
         const passBtn = document.getElementById('passBtn');
         if (mode === 'A') {
-            passBtn.innerHTML = '🔄 換一題';
+            passBtn.innerHTML = '重新抽取';
         } else {
-            passBtn.innerHTML = `🛡️ 豁免 (<span id="passCount">${passRemaining}</span>/3)`;
+            passBtn.innerHTML = `豁免權 (<span id="passCount">${passRemaining}</span>/3)`;
         }
 
         renderCategories();
@@ -868,7 +971,7 @@
         document.getElementById('frontTitle').innerText = card.tag;
         
         if (playMode === 'sequential') {
-            document.getElementById('cardCounter').innerText = `順序進度：${currentIndex + 1} / ${currentList.length}`;
+            document.getElementById('cardCounter').innerText = `進度：${currentIndex + 1} / ${currentList.length}`;
         } else {
             document.getElementById('cardCounter').innerText = `隨機模式（第 ${currentIndex + 1} 張）`;
         }
@@ -885,7 +988,7 @@
         if (card.timer) {
             const tBtn = document.createElement('button');
             tBtn.className = 'timer-btn';
-            tBtn.innerText = `⏱️ 啟動倒數計時 (${card.timer} 秒)`;
+            tBtn.innerText = `啟動倒數計時 (${card.timer} 秒)`;
             tBtn.onclick = () => startTimer(tBtn, card.timer);
             extraTools.appendChild(tBtn);
         }
@@ -893,7 +996,7 @@
         if (card.science) {
             const sBtn = document.createElement('button');
             sBtn.className = 'science-btn';
-            sBtn.innerText = '🔬 查看背後的心理學依據';
+            sBtn.innerText = '查看心理學研究依據';
             sBtn.onclick = () => showModal('科學與心理學研究依據', card.science);
             extraTools.appendChild(sBtn);
         }
@@ -902,14 +1005,14 @@
     function startTimer(btn, seconds) {
         clearInterval(timerInterval);
         let left = seconds;
-        btn.innerText = `⏳ 剩餘 ${left} 秒...（請專注彼此）`;
+        btn.innerText = `剩餘 ${left} 秒...`;
         timerInterval = setInterval(() => {
             left--;
             if (left <= 0) {
                 clearInterval(timerInterval);
-                btn.innerText = '✨ 時間到！請分享彼此的感受';
+                btn.innerText = '時間到，請分享彼此感受';
             } else {
-                btn.innerText = `⏳ 剩餘 ${left} 秒...（請專注彼此）`;
+                btn.innerText = `剩餘 ${left} 秒...`;
             }
         }, 1000);
     }
@@ -939,30 +1042,30 @@
         if (passRemaining === 3) {
             passRemaining--;
             document.getElementById('passCount').innerText = passRemaining;
-            showModal('🛡️ 使用第 1 次豁免權', '沒關係，這題我們先跳過！<br><br><b>交換條件：</b>請給對方一個長達 <b>10 秒的深情擁抱</b>，然後點擊「抽下一張卡」。');
+            showModal('使用第 1 次豁免權', '沒關係，這題我們先跳過。<br><br><b>交換條件：</b>請給對方一個長達 <b>10 秒的深情擁抱</b>，然後點擊下一張。');
             nextCard();
         } else if (passRemaining === 2) {
             passRemaining--;
             document.getElementById('passCount').innerText = passRemaining;
-            showModal('🛡️ 使用第 2 次豁免權', '這是最後一次擁抱豁免囉！<br><br><b>交換條件：</b>再給對方一個 <b>10 秒的深情擁抱（或親吻額頭）</b>，安全過關！');
+            showModal('使用第 2 次豁免權', '這是最後一次擁抱豁免。<br><br><b>交換條件：</b>再給對方一個 <b>10 秒的深情擁抱</b>，安全過關。');
             nextCard();
         } else if (passRemaining === 1) {
             passRemaining--;
             document.getElementById('passCount').innerText = passRemaining;
-            showModal('👑 終極許願豁免啟動！', '前兩次擁抱額度已用完！這次跳過題目，你必須<b>無條件答應對方的一個小願望</b>（例如：幫忙煮一頓飯、按摩 15 分鐘、或準備一份小禮物）！');
+            showModal('終極許願豁免啟動', '擁抱額度已用完！這次跳過題目，你必須<b>無條件答應對方的一個小願望</b>（例如：準備一份小禮物或按摩）。');
             nextCard();
         } else {
-            showModal('⚠️ 豁免額度已全數用完', '3 次豁免權都已經使用完畢囉！這題必須鼓起勇氣真誠回答，加油！');
+            showModal('豁免額度已用盡', '額度已全數用完，這題請鼓起勇氣真誠回答。');
         }
     }
 
     function openRules() {
         const rulesHtml = `
-            <p><b>1. 👁️ 眼神鎖定原則：</b><br>進入「階段三」與「階段四」時，回答問題請看著對方的眼睛，不要低頭滑手機。</p>
-            <p><b>2. 👂 不打斷、不辯解原則：</b><br>當對方在分享受傷或委屈時，聽的人<b>只能傾聽與擁抱，不能急著解釋</b>。等對方說完，請先說一聲：「謝謝你告訴我」。</p>
-            <p><b>3. 🛡️ 3 階豁免機制（伴侶版）：</b><br>前兩次跳過題目需用「10 秒深情擁抱」交換；第三次跳過則升級為「無條件滿足對方一個小願望」！</p>
+            <p><b>1. 眼神專注原則：</b><br>進入深層主題時，請看著對方的眼睛，保持對話的純粹與專注。</p>
+            <p><b>2. 傾聽與不辯解：</b><br>當對方在分享心事時，請先給予傾聽與擁抱，並以「謝謝你告訴我」作為回應。</p>
+            <p><b>3. 伴侶三階豁免：</b><br>模式 B 專屬，前兩次跳過需以深情擁抱交換，第三次則需滿足對方一個心願。</p>
         `;
-        showModal('📖 共振軌跡 · 遊戲儀式與規則', rulesHtml);
+        showModal('共振軌跡 · 遊戲原則', rulesHtml);
     }
 
     function showModal(title, htmlContent) {
